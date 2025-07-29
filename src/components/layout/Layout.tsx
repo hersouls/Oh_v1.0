@@ -66,7 +66,7 @@ export const Layout: React.FC<LayoutProps> = ({
             onVolumeChange={playerHandlers.onVolumeChange}
             onToggleRepeat={playerHandlers.onToggleRepeat}
             onToggleShuffle={playerHandlers.onToggleShuffle}
-            onDownload={playerHandlers.onDownload || undefined}
+            {...(playerHandlers.onDownload ? { onDownload: playerHandlers.onDownload } : {})}
           />
         </div>
       )}
