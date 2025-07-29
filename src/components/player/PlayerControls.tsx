@@ -6,7 +6,8 @@ import {
   ForwardIcon,
   ArrowPathIcon,
   SpeakerWaveIcon,
-  SpeakerXMarkIcon
+  SpeakerXMarkIcon,
+  ArrowDownTrayIcon
 } from '@heroicons/react/24/solid';
 import { Track } from '@/types';
 
@@ -16,6 +17,7 @@ interface PlayerControlsProps {
   volume: number;
   repeatMode: 'none' | 'one' | 'all';
   isShuffled: boolean;
+  currentTrack?: Track | undefined;
   onPlay: () => void;
   onPause: () => void;
   onPrevious: () => void;
@@ -24,6 +26,7 @@ interface PlayerControlsProps {
   onVolumeChange: (volume: number) => void;
   onToggleRepeat: () => void;
   onToggleShuffle: () => void;
+  onDownload?: (track: Track) => void;
   className?: string;
 }
 
@@ -33,6 +36,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
   volume,
   repeatMode,
   isShuffled,
+  currentTrack,
   onPlay,
   onPause,
   onPrevious,
@@ -41,6 +45,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
   onVolumeChange,
   onToggleRepeat,
   onToggleShuffle,
+  onDownload,
   className
 }) => {
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -138,6 +143,17 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
           }}
         />
       </div>
+
+      {/* 다운로드 버튼 */}
+      {currentTrack && onDownload && (
+        <button
+          onClick={() => onDownload(currentTrack)}
+          className="p-2 rounded-full hover:bg-glass-secondary transition-colors"
+          title="다운로드"
+        >
+          <ArrowDownTrayIcon className="w-5 h-5 text-white" />
+        </button>
+      )}
     </div>
   );
 };

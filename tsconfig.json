@@ -51,9 +51,7 @@
     "emitDecoratorMetadata": true
   },
   "include": [
-    "src/**/*",
-    "vite.config.ts",
-    "tailwind.config.js"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules",

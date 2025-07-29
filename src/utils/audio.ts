@@ -7,7 +7,9 @@ export const formatTime = (seconds: number): string => {
 
 // 시간을 초 단위로 변환
 export const parseTime = (timeString: string): number => {
-  const [minutes, seconds] = timeString.split(':').map(Number);
+  const parts = timeString.split(':').map(Number);
+  const minutes = parts[0] || 0;
+  const seconds = parts[1] || 0;
   return minutes * 60 + seconds;
 };
 

@@ -5,7 +5,7 @@ interface TypographyProps {
   variant?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'body' | 'caption' | 'overline';
   children: React.ReactNode;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: React.ElementType;
 }
 
 export const Typography: React.FC<TypographyProps> = ({
@@ -27,7 +27,7 @@ export const Typography: React.FC<TypographyProps> = ({
     overline: 'text-xs font-medium uppercase tracking-wider'
   };
 
-  const Component = as || (variant.startsWith('h') ? variant : 'p');
+  const Component = as || (variant.startsWith('h') ? variant : 'p') as React.ElementType;
 
   return (
     <Component

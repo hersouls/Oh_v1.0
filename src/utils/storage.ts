@@ -78,7 +78,8 @@ export const saveTheme = (theme: string): void => {
 
 // 테마 불러오기
 export const loadTheme = (): string => {
-  return getStorageItem(STORAGE_KEYS.THEME, 'auto');
+  const theme = getStorageItem(STORAGE_KEYS.THEME, 'auto');
+  return theme || 'auto';
 };
 
 // 언어 설정 저장
@@ -88,7 +89,8 @@ export const saveLanguage = (language: string): void => {
 
 // 언어 설정 불러오기
 export const loadLanguage = (): string => {
-  return getStorageItem(STORAGE_KEYS.LANGUAGE, 'ko');
+  const language = getStorageItem(STORAGE_KEYS.LANGUAGE, 'ko');
+  return language || 'ko';
 };
 
 // 첫 방문 여부 확인
@@ -97,5 +99,5 @@ export const isFirstVisit = (): boolean => {
   if (firstVisit) {
     setStorageItem(STORAGE_KEYS.FIRST_VISIT, false);
   }
-  return firstVisit;
+  return firstVisit || false;
 };
