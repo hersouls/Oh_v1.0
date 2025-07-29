@@ -27,6 +27,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ className = '' }) => {
     playPrevious,
     cycleRepeatMode,
     toggleShuffle,
+    downloadCurrentTrack,
     repeatMode,
     isShuffled,
     audioRef,
@@ -78,9 +79,11 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({ className = '' }) => {
           onNext={playNext}
           onToggleShuffle={toggleShuffle}
           onCycleRepeat={cycleRepeatMode}
+          onDownload={downloadCurrentTrack}
           isShuffled={isShuffled}
           repeatMode={repeatMode}
           isLoading={isLoading}
+          currentTrack={currentTrack}
         />
       </div>
     </div>

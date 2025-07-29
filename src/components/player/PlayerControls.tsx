@@ -6,6 +6,7 @@ import {
   ForwardIcon,
   ArrowsRightLeftIcon,
   ArrowPathIcon,
+  ArrowDownTrayIcon,
 } from '@heroicons/react/24/solid';
 
 interface PlayerControlsProps {
@@ -15,9 +16,11 @@ interface PlayerControlsProps {
   onNext: () => void;
   onToggleShuffle: () => void;
   onCycleRepeat: () => void;
+  onDownload?: () => void;
   isShuffled: boolean;
   repeatMode: 'none' | 'one' | 'all';
   isLoading: boolean;
+  currentTrack?: { title: string; artist: string } | null;
 }
 
 export const PlayerControls: React.FC<PlayerControlsProps> = ({
@@ -27,9 +30,11 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
   onNext,
   onToggleShuffle,
   onCycleRepeat,
+  onDownload,
   isShuffled,
   repeatMode,
   isLoading,
+  currentTrack,
 }) => {
   const getRepeatIcon = () => {
     switch (repeatMode) {
@@ -50,6 +55,12 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
         return 'text-moonwave-400';
       default:
         return 'text-gray-400';
+    }
+  };
+
+  const handleDownload = () => {
+    if (onDownload && currentTrack) {
+      onDownload();
     }
   };
 
@@ -108,6 +119,17 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
       >
         {getRepeatIcon()}
       </button>
+
+      {/* 다운로드 버튼 */}
+      {onDownload && currentTrack && (
+        <button
+          onClick={handleDownload}
+          className="p-2 rounded-full hover:bg-white/10 transition-colors text-gray-400 hover:text-white"
+          title={`${currentTrack.title} 다운로드`}
+        >
+          <ArrowDownTrayIcon className="w-5 h-5" />
+        </button>
+      )}
     </div>
   );
 };

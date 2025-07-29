@@ -27,6 +27,8 @@ interface PlayerState {
   currentIndex: number;
   repeatMode: 'none' | 'one' | 'all';
   isShuffled: boolean;
+  shuffledPlaylist: Track[]; // 셔플된 플레이리스트
+  originalPlaylist: Track[]; // 원본 플레이리스트
 }
 
 // 액션 타입
@@ -61,6 +63,8 @@ const initialState: PlayerState = {
   currentIndex: -1,
   repeatMode: 'none',
   isShuffled: false,
+  shuffledPlaylist: [],
+  originalPlaylist: [],
 };
 
 // 리듀서
@@ -91,7 +95,14 @@ function playerReducer(state: PlayerState, action: PlayerAction): PlayerState {
       return { ...state, error: action.payload };
     
     case 'SET_PLAYLIST':
-      return { ...state, playlist: action.payload };
+      return { 
+        ...state, 
+        playlist: action.payload,
+        originalPlaylist: action.payload,
+        shuffledPlaylist: action.payload,
+        currentIndex: action.payload.length > 0 ? 0 : -1,
+        currentTrack: action.payload.length > 0 ? action.payload[0] : null
+      };
     
     case 'SET_CURRENT_INDEX':
       return { ...state, currentIndex: action.payload };
@@ -100,7 +111,32 @@ function playerReducer(state: PlayerState, action: PlayerAction): PlayerState {
       return { ...state, repeatMode: action.payload };
     
     case 'TOGGLE_SHUFFLE':
-      return { ...state, isShuffled: !state.isShuffled };
+      if (state.isShuffled) {
+        // 셔플 해제: 원본 플레이리스트로 복원
+        const currentTrack = state.currentTrack;
+        const originalIndex = state.originalPlaylist.findIndex(track => track.id === currentTrack?.id);
+        return {
+          ...state,
+          isShuffled: false,
+          playlist: state.originalPlaylist,
+          currentIndex: originalIndex >= 0 ? originalIndex : 0,
+        };
+      } else {
+        // 셔플 활성화: 플레이리스트 섞기
+        const shuffled = [...state.playlist];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return {
+          ...state,
+          isShuffled: true,
+          shuffledPlaylist: shuffled,
+          playlist: shuffled,
+          currentIndex: 0,
+          currentTrack: shuffled[0],
+        };
+      }
     
     case 'NEXT_TRACK':
       if (state.playlist.length === 0) return state;
@@ -169,12 +205,38 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
     if (savedState) {
       try {
         const parsedState = JSON.parse(savedState);
-        // 민감한 상태는 복원하지 않음
+        
+        // 볼륨 복원
         if (parsedState.volume !== undefined) {
           dispatch({ type: 'SET_VOLUME', payload: parsedState.volume });
         }
+        
+        // 반복 모드 복원
         if (parsedState.repeatMode !== undefined) {
           dispatch({ type: 'SET_REPEAT_MODE', payload: parsedState.repeatMode });
+        }
+        
+        // 셔플 상태 복원
+        if (parsedState.isShuffled !== undefined) {
+          if (parsedState.isShuffled) {
+            dispatch({ type: 'TOGGLE_SHUFFLE' });
+          }
+        }
+        
+        // 플레이리스트 복원
+        if (parsedState.playlist && parsedState.playlist.length > 0) {
+          dispatch({ type: 'SET_PLAYLIST', payload: parsedState.playlist });
+          
+          // 현재 트랙과 인덱스 복원
+          if (parsedState.currentTrack && parsedState.currentIndex !== undefined) {
+            dispatch({ type: 'SET_CURRENT_TRACK', payload: parsedState.currentTrack });
+            dispatch({ type: 'SET_CURRENT_INDEX', payload: parsedState.currentIndex });
+            
+            // 재생 상태 복원 (자동 재생 정책으로 인해 false로 설정)
+            if (parsedState.isPlaying !== undefined) {
+              dispatch({ type: 'SET_PLAYING', payload: false });
+            }
+          }
         }
       } catch (error) {
         console.error('Failed to restore player state:', error);
@@ -187,9 +249,22 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
     const stateToSave = {
       volume: state.volume,
       repeatMode: state.repeatMode,
+      isShuffled: state.isShuffled,
+      playlist: state.playlist,
+      currentTrack: state.currentTrack,
+      currentIndex: state.currentIndex,
+      isPlaying: state.isPlaying,
     };
     localStorage.setItem('playerState', JSON.stringify(stateToSave));
-  }, [state.volume, state.repeatMode]);
+  }, [
+    state.volume, 
+    state.repeatMode, 
+    state.isShuffled, 
+    state.playlist, 
+    state.currentTrack, 
+    state.currentIndex,
+    state.isPlaying
+  ]);
 
   return (
     <PlayerContext.Provider value={{ state, dispatch }}>
