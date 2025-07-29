@@ -1,0 +1,729 @@
+# 🎨 Moonwave 디자인 가이드 v2.0 - Wave Effect & Glass Card
+
+## ⚠️ CRITICAL WARNINGS - READ FIRST
+
+**⚠️ IMPORTANT: Always cd Oh_v1.0 before running any commands**
+**⚠️ DO NOT create src folder manually - Vite already created it**
+**⚠️ GitHub Actions workflows must be in root .github folder**
+**⚠️ All development work must happen inside Oh_v1.0 directory**
+
+---
+
+## 1. 디자인 시스템 개요
+
+Moonwave는 **Wave Effect**와 **Glass Card** 디자인을 핵심으로 하는 현대적인 음악 플레이어 서비스입니다. 유리질 효과와 파동 애니메이션으로 몽환적이고 미래지향적인 사용자 경험을 제공합니다.
+
+### 1.1 핵심 원칙
+
+- **Wave Effect**: 파동 애니메이션으로 생동감 있는 인터페이스
+- **Glass Card**: 유리질 효과로 투명하고 세련된 디자인
+- **Utility-First**: Tailwind CSS 기반의 유틸리티 클래스 우선
+- **Mobile-First**: 모바일 우선 반응형 디자인
+- **Korean Typography**: Pretendard 폰트와 한글 최적화
+
+### 1.2 디자인 철학
+
+```
+Moonwave = Wave Effect + Glass Card + Utility-First CSS + Korean Typography
+```
+
+---
+
+## 2. Wave Effect 시스템
+
+### 2.1 기본 Wave 애니메이션
+
+```css
+/* Wave 애니메이션 기본 클래스 */
+@keyframes wave {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes wave-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes wave-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+/* Wave 유틸리티 클래스 */
+.wave-animation {
+  animation: wave 3s ease-in-out infinite;
+}
+
+.wave-float {
+  animation: wave-float 4s ease-in-out infinite;
+}
+
+.wave-pulse {
+  animation: wave-pulse 2s ease-in-out infinite;
+}
+```
+
+### 2.2 Wave 컴포넌트
+
+```tsx
+// Wave 배경 컴포넌트
+const WaveBackground: React.FC = () => {
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 to-purple-600/20" />
+      <div className="absolute top-0 left-0 w-full h-full">
+        <div className="wave-1 absolute top-1/4 left-0 w-96 h-96 bg-blue-400/30 rounded-full blur-3xl wave-float" />
+        <div className="wave-2 absolute top-1/2 right-0 w-80 h-80 bg-purple-500/30 rounded-full blur-3xl wave-float" style={{ animationDelay: '1s' }} />
+        <div className="wave-3 absolute bottom-1/4 left-1/4 w-72 h-72 bg-pink-400/30 rounded-full blur-3xl wave-float" style={{ animationDelay: '2s' }} />
+      </div>
+    </div>
+  );
+};
+
+// Wave 버튼 컴포넌트
+const WaveButton: React.FC<{ children: React.ReactNode; onClick?: () => void }> = ({ 
+  children, 
+  onClick 
+}) => {
+  return (
+    <button
+      onClick={onClick}
+      className="relative overflow-hidden bg-white/20 backdrop-blur-md border border-white/30 
+                 rounded-xl px-6 py-3 text-white font-semibold
+                 hover:bg-white/30 transition-all duration-300
+                 active:scale-95 transform"
+    >
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent 
+                      wave-animation" />
+      <span className="relative z-10">{children}</span>
+    </button>
+  );
+};
+```
+
+### 2.3 Wave 카드 컴포넌트
+
+```tsx
+// Wave 카드 컴포넌트
+const WaveCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+  children, 
+  className 
+}) => {
+  return (
+    <div className={cn(
+      "relative overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6",
+      "hover:bg-white/20 transition-all duration-300 hover:scale-[1.02]",
+      "shadow-lg hover:shadow-xl",
+      className
+    )}>
+      {/* Wave 효과 */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent wave-animation" />
+        <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent wave-animation" style={{ animationDelay: '1s' }} />
+      </div>
+      
+      {/* 컨텐츠 */}
+      <div className="relative z-10">
+        {children}
+      </div>
+    </div>
+  );
+};
+```
+
+---
+
+## 3. Glass Card 시스템
+
+### 3.1 기본 Glass 효과
+
+```css
+/* Glass 효과 기본 클래스 */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Glass 호버 효과 */
+.glass-hover {
+  transition: all 0.3s ease;
+}
+
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+```
+
+### 3.2 Glass 카드 컴포넌트
+
+```tsx
+// 기본 Glass 카드
+const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ 
+  children, 
+  className 
+}) => {
+  return (
+    <div className={cn(
+      "glass glass-hover rounded-2xl p-6",
+      "shadow-lg hover:shadow-xl",
+      className
+    )}>
+      {children}
+    </div>
+  );
+};
+
+// 음악 트랙 Glass 카드
+const MusicGlassCard: React.FC<{ 
+  track: {
+    id: number;
+    title: string;
+    artist: string;
+    coverUrl: string;
+  };
+  isPlaying: boolean;
+  onPlay: () => void;
+}> = ({ track, isPlaying, onPlay }) => {
+  return (
+    <div className="glass glass-hover rounded-2xl overflow-hidden group">
+      <div className="relative aspect-square">
+        <img 
+          src={track.coverUrl} 
+          alt={`${track.title} 커버`}
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors" />
+        
+        {/* 플레이 버튼 */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            onClick={onPlay}
+            className="w-16 h-16 glass-strong rounded-full flex items-center justify-center
+                       hover:scale-110 transition-transform"
+          >
+            {isPlaying ? (
+              <PauseIcon className="w-8 h-8 text-white" />
+            ) : (
+              <PlayIcon className="w-8 h-8 text-white ml-1" />
+            )}
+          </button>
+        </div>
+      </div>
+      
+      <div className="p-4">
+        <h3 className="font-semibold text-white text-lg break-keep-ko">{track.title}</h3>
+        <p className="text-white/80 text-sm mt-1">{track.artist}</p>
+      </div>
+    </div>
+  );
+};
+```
+
+### 3.3 Glass 네비게이션
+
+```tsx
+// Glass 네비게이션 바
+const GlassNavigation: React.FC = () => {
+  return (
+    <nav className="fixed top-0 left-0 right-0 z-50 p-4">
+      <div className="glass rounded-2xl px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <h1 className="text-xl font-bold text-white">Moonwave</h1>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            <button className="glass-strong rounded-lg px-4 py-2 text-white hover:bg-white/20 transition-colors">
+              홈
+            </button>
+            <button className="glass-strong rounded-lg px-4 py-2 text-white hover:bg-white/20 transition-colors">
+              플레이리스트
+            </button>
+            <button className="glass-strong rounded-lg px-4 py-2 text-white hover:bg-white/20 transition-colors">
+              설정
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  );
+};
+```
+
+---
+
+## 4. 음악 플레이어 Glass 컴포넌트
+
+### 4.1 Glass 플레이어 컨트롤
+
+```tsx
+const GlassPlayerControls: React.FC<{
+  isPlaying: boolean;
+  currentTime: number;
+  duration: number;
+  onPlayPause: () => void;
+  onSeek: (time: number) => void;
+}> = ({ isPlaying, currentTime, duration, onPlayPause, onSeek }) => {
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
+      <div className="glass rounded-2xl p-6">
+        {/* 진행바 */}
+        <div className="mb-4">
+          <div className="relative">
+            <div className="w-full h-2 bg-white/20 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-white/60 rounded-full transition-all duration-200"
+                style={{ width: `${(currentTime / duration) * 100}%` }}
+              />
+            </div>
+            <input
+              type="range"
+              min="0"
+              max={duration}
+              value={currentTime}
+              onChange={(e) => onSeek(Number(e.target.value))}
+              className="absolute inset-0 w-full h-2 opacity-0 cursor-pointer"
+            />
+          </div>
+          <div className="flex justify-between text-white/80 text-sm mt-2">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
+          </div>
+        </div>
+        
+        {/* 컨트롤 버튼들 */}
+        <div className="flex items-center justify-center space-x-6">
+          <button className="glass-strong rounded-full p-3 hover:scale-110 transition-transform">
+            <SkipBackIcon className="w-6 h-6 text-white" />
+          </button>
+          
+          <button 
+            onClick={onPlayPause}
+            className="glass-strong rounded-full p-4 hover:scale-110 transition-transform"
+          >
+            {isPlaying ? (
+              <PauseIcon className="w-8 h-8 text-white" />
+            ) : (
+              <PlayIcon className="w-8 h-8 text-white ml-1" />
+            )}
+          </button>
+          
+          <button className="glass-strong rounded-full p-3 hover:scale-110 transition-transform">
+            <SkipForwardIcon className="w-6 h-6 text-white" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+```
+
+### 4.2 Glass 플레이리스트
+
+```tsx
+const GlassPlaylist: React.FC<{ tracks: Array<any> }> = ({ tracks }) => {
+  return (
+    <div className="space-y-4">
+      {tracks.map((track, index) => (
+        <div key={track.id} className="glass glass-hover rounded-xl p-4 flex items-center space-x-4">
+          <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+            <img 
+              src={track.coverUrl} 
+              alt={`${track.title} 커버`}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          
+          <div className="flex-1 min-w-0">
+            <h4 className="font-semibold text-white break-keep-ko truncate">{track.title}</h4>
+            <p className="text-white/80 text-sm truncate">{track.artist}</p>
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <span className="text-white/60 text-sm">{formatTime(track.duration)}</span>
+            <button className="glass-strong rounded-full p-2 hover:scale-110 transition-transform">
+              <PlayIcon className="w-4 h-4 text-white" />
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+---
+
+## 5. Wave & Glass 통합 레이아웃
+
+### 5.1 메인 레이아웃
+
+```tsx
+const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Wave 배경 */}
+      <WaveBackground />
+      
+      {/* Glass 네비게이션 */}
+      <GlassNavigation />
+      
+      {/* 메인 콘텐츠 */}
+      <main className="relative z-10 pt-24 pb-32 px-4">
+        <div className="max-w-6xl mx-auto">
+          {children}
+        </div>
+      </main>
+      
+      {/* Glass 플레이어 */}
+      <GlassPlayerControls 
+        isPlaying={isPlaying}
+        currentTime={currentTime}
+        duration={duration}
+        onPlayPause={handlePlayPause}
+        onSeek={handleSeek}
+      />
+    </div>
+  );
+};
+```
+
+### 5.2 인트로 페이지
+
+```tsx
+const IntroPage: React.FC = () => {
+  return (
+    <div className="min-h-screen flex items-center justify-center relative">
+      <WaveBackground />
+      
+      <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
+        <WaveCard className="mb-8">
+          <h1 className="text-5xl sm:text-7xl font-bold text-white mb-6 break-keep-ko wave-pulse">
+            Moonwave
+          </h1>
+          <p className="text-xl sm:text-2xl text-white/90 leading-relaxed break-keep-ko">
+            파동과 유리의 조화로 만나는 몽환적인 음악 경험
+          </p>
+        </WaveCard>
+        
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <WaveButton onClick={() => navigate('/player')}>
+            음악 시작하기
+          </WaveButton>
+          <WaveButton onClick={() => navigate('/playlist')}>
+            플레이리스트 보기
+          </WaveButton>
+        </div>
+      </div>
+    </div>
+  );
+};
+```
+
+---
+
+## 6. 반응형 Wave & Glass 디자인
+
+### 6.1 모바일 최적화
+
+```tsx
+// 모바일 친화적 Wave 카드
+const MobileWaveCard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <div className="glass glass-hover rounded-xl p-4 sm:p-6
+                    mx-4 sm:mx-0
+                    touch-manipulation">
+      {children}
+    </div>
+  );
+};
+
+// 모바일 Glass 네비게이션
+const MobileGlassNav: React.FC = () => {
+  return (
+    <nav className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:hidden">
+      <div className="glass rounded-2xl px-4 py-3">
+        <div className="flex items-center justify-around">
+          <button className="glass-strong rounded-lg p-2">
+            <HomeIcon className="w-6 h-6 text-white" />
+          </button>
+          <button className="glass-strong rounded-lg p-2">
+            <PlayIcon className="w-6 h-6 text-white" />
+          </button>
+          <button className="glass-strong rounded-lg p-2">
+            <ListIcon className="w-6 h-6 text-white" />
+          </button>
+          <button className="glass-strong rounded-lg p-2">
+            <SettingsIcon className="w-6 h-6 text-white" />
+          </button>
+        </div>
+      </div>
+    </nav>
+  );
+};
+```
+
+### 6.2 터치 최적화
+
+```css
+/* 터치 최적화 클래스 */
+.touch-optimized {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.glass-touch {
+  @apply glass glass-hover touch-optimized;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.wave-touch {
+  @apply wave-animation touch-optimized;
+  touch-action: pan-x;
+}
+```
+
+---
+
+## 7. 성능 최적화
+
+### 7.1 CSS 최적화
+
+```css
+/* 성능 최적화된 애니메이션 */
+.wave-optimized {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.glass-optimized {
+  will-change: backdrop-filter;
+  transform: translateZ(0);
+}
+
+/* 미디어 쿼리 최적화 */
+@media (prefers-reduced-motion: reduce) {
+  .wave-animation,
+  .wave-float,
+  .wave-pulse {
+    animation: none;
+  }
+}
+```
+
+### 7.2 컴포넌트 최적화
+
+```tsx
+// 메모이제이션된 Wave 컴포넌트
+const MemoizedWaveCard = React.memo(WaveCard);
+
+// 지연 로딩된 Glass 컴포넌트
+const LazyGlassPlayer = React.lazy(() => import('./GlassPlayer'));
+
+// 가상화된 플레이리스트
+const VirtualizedPlaylist: React.FC<{ tracks: Array<any> }> = ({ tracks }) => {
+  return (
+    <div className="h-96 overflow-y-auto">
+      {tracks.map((track, index) => (
+        <div key={track.id} className="h-20">
+          <GlassPlaylistItem track={track} />
+        </div>
+      ))}
+    </div>
+  );
+};
+```
+
+---
+
+## 8. 접근성 고려사항
+
+### 8.1 Wave & Glass 접근성
+
+```tsx
+// 접근성 고려된 Wave 버튼
+const AccessibleWaveButton: React.FC<{ 
+  children: React.ReactNode; 
+  onClick?: () => void;
+  ariaLabel: string;
+}> = ({ children, onClick, ariaLabel }) => {
+  return (
+    <button
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className="wave-button glass glass-hover rounded-xl px-6 py-3
+                 focus:outline-none focus:ring-2 focus:ring-white/50
+                 active:scale-95 transform"
+    >
+      <div className="wave-animation" aria-hidden="true" />
+      <span className="relative z-10">{children}</span>
+    </button>
+  );
+};
+
+// 고대비 모드 대응
+const HighContrastGlass: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return (
+    <div className="glass rounded-2xl p-6
+                    [@media(prefers-contrast:high)]:bg-white/90
+                    [@media(prefers-contrast:high)]:text-black">
+      {children}
+    </div>
+  );
+};
+```
+
+### 8.2 모션 감소 설정 대응
+
+```css
+/* 모션 감소 설정 대응 */
+@media (prefers-reduced-motion: reduce) {
+  .wave-animation,
+  .wave-float,
+  .wave-pulse {
+    animation: none;
+  }
+  
+  .glass-hover:hover {
+    transform: none;
+  }
+  
+  .wave-button:active {
+    transform: none;
+  }
+}
+```
+
+---
+
+## 9. 개발 체크리스트
+
+### 9.1 Wave Effect 체크리스트
+
+- [ ] Wave 애니메이션 성능 최적화
+- [ ] 모션 감소 설정 대응
+- [ ] 터치 디바이스 최적화
+- [ ] 접근성 속성 추가
+- [ ] 브라우저 호환성 확인
+
+### 9.2 Glass Card 체크리스트
+
+- [ ] backdrop-filter 지원 확인
+- [ ] 고대비 모드 대응
+- [ ] 터치 피드백 최적화
+- [ ] 성능 모니터링
+- [ ] 반응형 테스트
+
+### 9.3 통합 테스트 체크리스트
+
+- [ ] 모바일 디바이스 테스트
+- [ ] 성능 프로파일링
+- [ ] 접근성 검사
+- [ ] 브라우저 크로스 테스트
+- [ ] 사용자 테스트
+
+---
+
+## 10. 빠른 참조
+
+### 10.1 Wave & Glass 클래스 조합
+
+```css
+/* 기본 조합 */
+.wave-glass {
+  @apply glass glass-hover wave-animation;
+}
+
+.wave-glass-card {
+  @apply glass glass-hover rounded-2xl p-6 wave-float;
+}
+
+.wave-glass-button {
+  @apply glass glass-hover rounded-xl px-6 py-3 wave-pulse;
+}
+
+/* 반응형 조합 */
+.wave-glass-responsive {
+  @apply glass glass-hover rounded-xl p-4 sm:p-6;
+  @apply mx-4 sm:mx-0;
+  @apply touch-manipulation;
+}
+```
+
+### 10.2 아이콘 라이브러리
+
+```tsx
+// Wave & Glass 전용 아이콘
+import { 
+  PlayIcon,
+  PauseIcon,
+  SkipBackIcon,
+  SkipForwardIcon,
+  VolumeIcon,
+  HomeIcon,
+  ListIcon,
+  SettingsIcon
+} from '@heroicons/react/24/solid';
+```
+
+### 10.3 유틸리티 함수
+
+```typescript
+// Wave 효과 유틸리티
+export const createWaveDelay = (index: number): string => {
+  return `${index * 0.5}s`;
+};
+
+// Glass 효과 유틸리티
+export const getGlassOpacity = (intensity: 'light' | 'medium' | 'strong'): string => {
+  const opacities = {
+    light: '0.1',
+    medium: '0.2', 
+    strong: '0.3'
+  };
+  return opacities[intensity];
+};
+
+// 성능 최적화 유틸리티
+export const shouldReduceMotion = (): boolean => {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+};
+```
+
+이 디자인 가이드는 Moonwave 프로젝트에 Wave Effect와 Glass Card 디자인을 적용하기 위한 완전한 가이드입니다. 현대적이고 몽환적인 사용자 경험을 제공하면서도 접근성과 성능을 고려한 설계입니다.
