@@ -1,13 +1,11 @@
 import { useEffect, useCallback } from 'react';
 import { useAudioPlayer } from './useAudioPlayer';
 import { usePlayerState, usePlayerActions, Track } from './usePlayerState';
-import { useAudioPreloader } from './useAudioPreloader';
 
 export const useIntegratedPlayer = () => {
   const audioPlayer = useAudioPlayer();
   const { state } = usePlayerState();
   const actions = usePlayerActions();
-  const preloader = useAudioPreloader();
 
   // 오디오 플레이어 상태를 전역 상태와 동기화
   useEffect(() => {
@@ -32,157 +30,151 @@ export const useIntegratedPlayer = () => {
   // 현재 트랙이 변경되면 오디오 로드
   useEffect(() => {
     if (state.currentTrack) {
-      audioPlayer.loadTrack(state.currentTrack.src);
+      audioPlayer.loadAudio(state.currentTrack.audioUrl);
     }
   }, [state.currentTrack, audioPlayer]);
 
-  // 트랙 재생
-  const playTrack = useCallback((track: Track) => {
-    actions.setCurrentTrack(track);
-    audioPlayer.loadTrack(track.src);
-    audioPlayer.play();
-  }, [actions, audioPlayer]);
+  // 재생/정지 상태 동기화
+  useEffect(() => {
+    if (state.isPlaying && !audioPlayer.isPlaying) {
+      audioPlayer.play();
+    } else if (!state.isPlaying && audioPlayer.isPlaying) {
+      audioPlayer.pause();
+    }
+  }, [state.isPlaying, audioPlayer]);
+
+  // 볼륨 동기화
+  useEffect(() => {
+    if (Math.abs(state.volume - audioPlayer.volume) > 0.01) {
+      audioPlayer.setVolume(state.volume);
+    }
+  }, [state.volume, audioPlayer]);
+
+  // 음소거 동기화
+  useEffect(() => {
+    if (state.isMuted !== audioPlayer.isMuted) {
+      audioPlayer.toggleMute();
+    }
+  }, [state.isMuted, audioPlayer]);
+
+  // 트랙 재생 함수
+  const playTrack = useCallback(
+    async (track: Track, index?: number) => {
+      actions.setCurrentTrack(track);
+      if (index !== undefined) {
+        actions.setCurrentIndex(index);
+      }
+      actions.setPlaying(true);
+    },
+    [actions]
+  );
 
   // 재생/정지 토글
-  const togglePlay = useCallback(() => {
-    if (audioPlayer.isPlaying) {
-      audioPlayer.pause();
+  const togglePlay = useCallback(async () => {
+    if (state.isPlaying) {
+      actions.setPlaying(false);
     } else {
-      audioPlayer.play();
+      actions.setPlaying(true);
     }
-  }, [audioPlayer]);
+  }, [state.isPlaying, actions]);
 
-  // 다음 트랙
-  const playNext = useCallback(() => {
-    if (state.currentIndex < state.playlist.length - 1) {
-      actions.nextTrack();
-      const nextTrack = state.playlist[state.currentIndex + 1];
-      if (nextTrack) {
-        playTrack(nextTrack);
-      }
-    }
-  }, [state.currentIndex, state.playlist, actions, playTrack]);
+  // 시간 이동
+  const seekTo = useCallback(
+    (time: number) => {
+      audioPlayer.seek(time);
+    },
+    [audioPlayer]
+  );
 
-  // 이전 트랙
-  const playPrevious = useCallback(() => {
-    if (state.currentIndex > 0) {
-      actions.previousTrack();
-      const prevTrack = state.playlist[state.currentIndex - 1];
-      if (prevTrack) {
-        playTrack(prevTrack);
-      }
-    }
-  }, [state.currentIndex, state.playlist, actions, playTrack]);
-
-  // 플레이리스트 설정 및 프리로드
-  const setPlaylist = useCallback(async (tracks: Track[]) => {
-    actions.setPlaylist(tracks);
-    
-    // 첫 번째 트랙 자동 재생
-    if (tracks.length > 0) {
-      actions.setCurrentIndex(0);
-      playTrack(tracks[0]);
-    }
-
-    // 나머지 트랙들 프리로드
-    const sources = tracks.slice(1).map(track => track.src);
-    if (sources.length > 0) {
-      preloader.preloadQueue(sources);
-    }
-  }, [actions, playTrack, preloader]);
-
-  // 볼륨 조절
-  const setVolume = useCallback((volume: number) => {
-    audioPlayer.setVolume(volume);
-  }, [audioPlayer]);
+  // 볼륨 설정
+  const setVolume = useCallback(
+    (volume: number) => {
+      actions.setVolume(volume);
+    },
+    [actions]
+  );
 
   // 음소거 토글
   const toggleMute = useCallback(() => {
-    audioPlayer.toggleMute();
-  }, [audioPlayer]);
+    actions.setMuted(!state.isMuted);
+  }, [state.isMuted, actions]);
 
-  // 특정 시간으로 이동
-  const seek = useCallback((time: number) => {
-    audioPlayer.seek(time);
-  }, [audioPlayer]);
+  // 다음 곡
+  const playNext = useCallback(() => {
+    actions.nextTrack();
+  }, [actions]);
+
+  // 이전 곡
+  const playPrevious = useCallback(() => {
+    actions.previousTrack();
+  }, [actions]);
+
+  // 반복 모드 변경
+  const cycleRepeatMode = useCallback(() => {
+    const modes: Array<'none' | 'one' | 'all'> = ['none', 'one', 'all'];
+    const currentIndex = modes.indexOf(state.repeatMode);
+    const nextIndex = (currentIndex + 1) % modes.length;
+    actions.setRepeatMode(modes[nextIndex]);
+  }, [state.repeatMode, actions]);
 
   // 셔플 토글
   const toggleShuffle = useCallback(() => {
     actions.toggleShuffle();
   }, [actions]);
 
-  // 반복 모드 토글
-  const toggleRepeat = useCallback(() => {
-    actions.toggleRepeat();
-  }, [actions]);
+  // 플레이리스트 설정
+  const setPlaylist = useCallback(
+    (tracks: Track[]) => {
+      actions.setPlaylist(tracks);
+    },
+    [actions]
+  );
 
-  // 오디오 종료 시 다음 트랙 자동 재생
+  // 현재 트랙이 끝났을 때 처리
   useEffect(() => {
-    const handleEnded = () => {
+    if (state.currentTrack && state.duration > 0 && state.currentTime >= state.duration) {
       if (state.repeatMode === 'one') {
-        // 현재 트랙 반복
+        // 한 곡 반복: 현재 곡 다시 재생
         audioPlayer.seek(0);
         audioPlayer.play();
       } else if (state.repeatMode === 'all') {
-        // 전체 플레이리스트 반복
-        if (state.currentIndex < state.playlist.length - 1) {
-          playNext();
-        } else {
-          actions.setCurrentIndex(0);
-          const firstTrack = state.playlist[0];
-          if (firstTrack) {
-            playTrack(firstTrack);
-          }
-        }
+        // 전체 반복: 다음 곡으로
+        playNext();
       } else {
-        // 반복 없음 - 다음 트랙으로
-        if (state.currentIndex < state.playlist.length - 1) {
-          playNext();
-        }
+        // 반복 없음: 재생 정지
+        actions.setPlaying(false);
       }
-    };
-
-    if (audioPlayer.audioRef.current) {
-      audioPlayer.audioRef.current.addEventListener('ended', handleEnded);
-      return () => {
-        if (audioPlayer.audioRef.current) {
-          audioPlayer.audioRef.current.removeEventListener('ended', handleEnded);
-        }
-      };
     }
-  }, [state.repeatMode, state.currentIndex, state.playlist, playNext, playTrack, actions, audioPlayer]);
+  }, [state.currentTime, state.duration, state.repeatMode, state.currentTrack, playNext, actions, audioPlayer]);
 
   return {
     // 상태
     currentTrack: state.currentTrack,
-    playlist: state.playlist,
-    currentIndex: state.currentIndex,
     isPlaying: state.isPlaying,
-    isShuffled: state.isShuffled,
-    repeatMode: state.repeatMode,
-    volume: state.volume,
-    isMuted: state.isMuted,
     currentTime: state.currentTime,
     duration: state.duration,
+    volume: state.volume,
+    isMuted: state.isMuted,
     isLoading: state.isLoading,
     error: state.error,
+    playlist: state.playlist,
+    currentIndex: state.currentIndex,
+    repeatMode: state.repeatMode,
+    isShuffled: state.isShuffled,
 
     // 액션
     playTrack,
     togglePlay,
-    playNext,
-    playPrevious,
-    setPlaylist,
+    seekTo,
     setVolume,
     toggleMute,
-    seek,
+    playNext,
+    playPrevious,
+    cycleRepeatMode,
     toggleShuffle,
-    toggleRepeat,
+    setPlaylist,
 
-    // 오디오 참조
+    // 오디오 요소 참조 (컴포넌트에서 사용)
     audioRef: audioPlayer.audioRef,
-
-    // 프리로더
-    preloader,
   };
 };

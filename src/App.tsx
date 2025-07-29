@@ -3,7 +3,7 @@ import { PlayerProvider } from '@/hooks/usePlayerState';
 import { Layout } from '@/components/layout/Layout';
 import { IntroPage } from '@/components/intro/IntroPage';
 import { AboutPage } from '@/components/intro/AboutPage';
-import { TestAudioPlayer } from '@/components/player/TestAudioPlayer';
+import { TracksPage } from '@/pages/TracksPage';
 import './App.css';
 
 function App() {
@@ -37,15 +37,12 @@ function App() {
               } 
             />
             
-            {/* 트랙 리스트 페이지 (테스트용 오디오 플레이어) */}
+            {/* 트랙 리스트 페이지 */}
             <Route 
               path="/tracks" 
               element={
                 <Layout>
-                  <div className="container mx-auto px-4 py-8">
-                    <h1 className="text-3xl font-bold text-white mb-8">오디오 플레이어 테스트</h1>
-                    <TestAudioPlayer />
-                  </div>
+                  <TracksPage />
                 </Layout>
               } 
             />
