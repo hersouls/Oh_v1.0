@@ -107,7 +107,7 @@ export const useMusicPlayer = () => {
         soundRef.current.unload();
       }
     };
-  }, [musicState.currentTrack?.id]);
+  }, [musicState.currentTrack?.id, musicState, getNextTrack]);
 
   // 재생 상태 변경 시 실제 재생/일시정지
   useEffect(() => {
@@ -390,7 +390,7 @@ export const useMusicPlayer = () => {
   };
 
   // 현재 플레이리스트에서 다음 트랙 가져오기
-  const getNextTrack = () => {
+  const getNextTrack = React.useCallback(() => {
     // 현재 트랙이 없으면 null 반환
     if (!musicState.currentTrack) {
       console.log('🎵 현재 트랙이 없음');
@@ -444,7 +444,7 @@ export const useMusicPlayer = () => {
     const nextTrack = tracks[nextIndex];
     console.log(`🎵 sequential 모드 - 다음 순서 트랙: ${nextTrack?.title} (인덱스: ${nextIndex})`);
     return nextTrack;
-  };
+  }, [musicState.currentTrack, musicState.playMode, musicState.shuffledPlaylist]);
 
   // 현재 플레이리스트에서 이전 트랙 가져오기
   const getPreviousTrack = () => {

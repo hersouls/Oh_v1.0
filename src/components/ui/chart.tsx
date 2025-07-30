@@ -126,8 +126,8 @@ function ChartTooltipContent({
     nameKey?: string;
     labelKey?: string;
   } & {
-    payload?: any[];
-    label?: any;
+    payload?: unknown[];
+    label?: unknown;
   }) {
   const { config } = useChart();
 
@@ -182,7 +182,7 @@ function ChartTooltipContent({
     >
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
-        {payload?.map((item: any, index: number) => {
+        {payload?.map((item: unknown, index: number) => {
           const key = `${nameKey || item.name || item.dataKey || "value"}`;
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
           const indicatorColor = color || item.payload.fill || item.color;
@@ -263,7 +263,7 @@ function ChartLegendContent({
   Pick<RechartsPrimitive.LegendProps, "verticalAlign"> & {
     hideIcon?: boolean;
     nameKey?: string;
-    payload?: any[];
+    payload?: unknown[];
   }) {
   const { config } = useChart();
 
@@ -279,7 +279,7 @@ function ChartLegendContent({
         className,
       )}
     >
-      {payload.map((item: any) => {
+      {payload.map((item: unknown) => {
         const key = `${nameKey || item.dataKey || "value"}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
 

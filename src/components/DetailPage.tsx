@@ -143,7 +143,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
+                  onClick={() => setActiveTab(tab.id as 'lyrics' | 'interpretation')}
                   className={cn(
                     'flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200',
                     activeTab === tab.id

@@ -25,7 +25,7 @@ export default function App() {
         musicPlayer.playTrack(firstTrack);
       }
     }
-  }, [currentPage, musicPlayer.currentTrack]);
+  }, [currentPage, musicPlayer.currentTrack, musicPlayer]);
 
 
 

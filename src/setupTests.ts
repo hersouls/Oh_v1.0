@@ -56,4 +56,4 @@ global.IntersectionObserver = class IntersectionObserver {
   rootMargin: string = '';
   thresholds: ReadonlyArray<number> = [];
   takeRecords() { return []; }
-} as any; 
+} as IntersectionObserver; 
