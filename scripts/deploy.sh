@@ -1,46 +1,69 @@
 #!/bin/bash
 
 # Moonwave Deployment Script
+# This script ensures all required files are properly built and deployed
+
+set -e
+
 echo "🚀 Starting Moonwave deployment..."
 
+# Clean previous build
+echo "🧹 Cleaning previous build..."
+rm -rf dist
+
+# Install dependencies if needed
+echo "📦 Installing dependencies..."
+npm install
+
 # Build the application
-echo "📦 Building application..."
+echo "🔨 Building application..."
 npm run build
 
-# Check if build was successful
-if [ $? -ne 0 ]; then
-    echo "❌ Build failed!"
-    exit 1
-fi
+# Verify required files exist
+echo "✅ Verifying required files..."
 
-# Copy service worker to dist directory
-echo "🔧 Copying service worker..."
-cp public/sw.js dist/
-
-# Copy manifest to dist directory
-echo "📋 Copying manifest..."
-cp public/manifest.json dist/
-
-# Copy logo to dist directory
-echo "🖼️ Copying logo..."
-cp public/moonwave_log.png dist/
-
-# Verify all required files exist
-echo "✅ Verifying deployment files..."
-required_files=("dist/index.html" "dist/sw.js" "dist/manifest.json" "dist/moonwave_log.png")
+required_files=(
+    "dist/index.html"
+    "dist/manifest.json"
+    "dist/moonwave_log.png"
+    "dist/sw.js"
+    "dist/robots.txt"
+)
 
 for file in "${required_files[@]}"; do
     if [ ! -f "$file" ]; then
         echo "❌ Missing required file: $file"
         exit 1
+    else
+        echo "✅ Found: $file"
     fi
 done
 
-echo "✅ All files verified!"
+# Verify assets directory
+if [ ! -d "dist/assets" ]; then
+    echo "❌ Missing assets directory"
+    exit 1
+else
+    echo "✅ Assets directory found"
+fi
 
-# Optional: Deploy to server (uncomment and modify as needed)
-# echo "🌐 Deploying to server..."
-# rsync -avz --delete dist/ user@your-server:/var/www/oh.moonwave.kr/
+# Check for JavaScript files in assets
+js_files=$(find dist/assets -name "*.js" | wc -l)
+if [ "$js_files" -eq 0 ]; then
+    echo "❌ No JavaScript files found in assets"
+    exit 1
+else
+    echo "✅ Found $js_files JavaScript files in assets"
+fi
 
-echo "🎉 Deployment completed successfully!"
-echo "📁 Files are ready in the dist/ directory"
+echo "🎉 Deployment verification complete!"
+echo "📁 Build directory: dist/"
+echo "📋 Files to deploy:"
+ls -la dist/
+
+echo ""
+echo "📝 Next steps:"
+echo "1. Copy the contents of dist/ to your web server"
+echo "2. Ensure nginx configuration is properly set up"
+echo "3. Restart nginx: sudo systemctl restart nginx"
+echo "4. Test the application at https://oh.moonwave.kr"

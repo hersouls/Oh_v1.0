@@ -36,6 +36,7 @@ export default defineConfig({
     // Add proper MIME type handling for development
     headers: {
       'X-Content-Type-Options': 'nosniff',
+      'Content-Type': 'application/javascript; charset=utf-8',
     },
   },
   preview: {
@@ -44,6 +45,7 @@ export default defineConfig({
     // Add proper MIME type handling for preview
     headers: {
       'X-Content-Type-Options': 'nosniff',
+      'Content-Type': 'application/javascript; charset=utf-8',
     },
   },
   define: {
@@ -51,4 +53,8 @@ export default defineConfig({
   },
   // Ensure proper asset handling
   assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg', '**/*.ico'],
+  // Add proper MIME type configuration
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+  },
 })
