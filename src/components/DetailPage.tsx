@@ -29,11 +29,9 @@ export const DetailPage: React.FC<DetailPageProps> = ({
     shine: 'from-yellow-400/30 to-amber-400/30',
   };
 
-
-
   const tabs = [
-    { id: 'lyrics', label: '가사', icon: '🎵' },
-    { id: 'interpretation', label: '해석', icon: '💭' },
+    { id: 'lyrics' as const, label: '가사', icon: '🎵' },
+    { id: 'interpretation' as const, label: '해석', icon: '💭' },
   ];
 
   return (
@@ -99,7 +97,6 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                   size="lg"
                   ariaLabel={isPlaying ? '일시정지 (하단 뮤직플레이어)' : '재생 (하단 뮤직플레이어)'}
                   className="w-20 h-20 rounded-full p-0 shadow-2xl group/play"
-                  title={isPlaying ? '하단 뮤직플레이어에서 일시정지' : '하단 뮤직플레이어에서 재생'}
                 >
                   {isPlaying ? (
                     <Pause className="w-10 h-10" />
@@ -143,7 +140,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as string)}
+                  onClick={() => setActiveTab(tab.id)}
                   className={cn(
                     'flex-1 py-3 px-4 rounded-xl text-sm font-medium transition-all duration-200',
                     activeTab === tab.id
@@ -188,26 +185,19 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                     해석 & 의미
                   </h3>
                   <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
-                    <p className="text-white/90 leading-relaxed break-keep-ko text-base">
-                      {track.lyricsInterpretation || '해석 정보가 준비되지 않았습니다.'}
-                    </p>
-                  </div>
-                  
-                  {/* Story Context */}
-                  <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6">
-                    <h4 className="font-semibold text-white mb-3 break-keep-ko">
-                      성장 스토리 속에서
-                    </h4>
-                    <p className="text-white/90 leading-relaxed break-keep-ko text-base">
-                      {track.theme === 'beginning' && 
-                        '평범한 일상에서 시작되는 첫 번째 용기의 순간들. 작은 변화가 큰 성장의 시작이 됩니다.'}
-                      {track.theme === 'growth' && 
-                        '매일의 노력이 쌓여가며 실력과 자신감이 조금씩 자라나는 시기. 포기하고 싶은 순간을 이겨내는 힘을 기릅니다.'}
-                      {track.theme === 'challenge' && 
-                        '한계에 부딪히고 극복해나가는 과정. 실패와 좌절 속에서도 다시 일어서는 법을 배웁니다.'}
-                      {track.theme === 'shine' && 
-                        '노력의 결실을 맺고 자신만의 빛을 발하는 단계. 평범했던 자신이 특별한 존재가 되어가는 기쁨을 경험합니다.'}
-                    </p>
+                    <div className="space-y-4 text-white/90 leading-relaxed break-keep-ko">
+                      {track.lyricsInterpretation ? (
+                        track.lyricsInterpretation.split('\n').map((line: string, index: number) => (
+                          <p key={index} className="text-base">
+                            {line || '\u00A0'}
+                          </p>
+                        ))
+                      ) : (
+                        <p className="text-base text-white/70 break-keep-ko">
+                          해석 정보가 준비되지 않았습니다.
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}

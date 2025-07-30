@@ -104,6 +104,17 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
+// Add type definitions for chart payload items
+interface ChartPayloadItem {
+  value?: unknown;
+  name?: string;
+  dataKey?: string;
+  payload?: {
+    fill?: string;
+  };
+  color?: string;
+}
+
 function ChartTooltipContent({
   active,
   payload,
@@ -126,17 +137,17 @@ function ChartTooltipContent({
     nameKey?: string;
     labelKey?: string;
   } & {
-    payload?: unknown[];
+    payload?: ChartPayloadItem[];
     label?: unknown;
   }) {
   const { config } = useChart();
 
   const tooltipLabel = React.useMemo(() => {
-    if (hideLabel || !payload?.length) {
+    if (hideLabel) {
       return null;
     }
 
-    const [item] = payload;
+    const item = payload?.[0] as ChartPayloadItem;
     const key = `${labelKey || item?.dataKey || item?.name || "value"}`;
     const itemConfig = getPayloadConfigFromPayload(config, item, key);
     const value =
@@ -147,7 +158,7 @@ function ChartTooltipContent({
     if (labelFormatter) {
       return (
         <div className={cn("font-medium", labelClassName)}>
-          {labelFormatter(value, payload)}
+          {labelFormatter(value, payload as any || [])}
         </div>
       );
     }
@@ -182,10 +193,10 @@ function ChartTooltipContent({
     >
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
-        {payload?.map((item: unknown, index: number) => {
-          const key = `${nameKey || (item as { name?: string; dataKey?: string }).name || (item as { dataKey?: string }).dataKey || "value"}`;
+        {payload?.map((item: ChartPayloadItem, index: number) => {
+          const key = `${nameKey || item.name || item.dataKey || "value"}`;
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
-          const indicatorColor = color || (item as { payload?: { fill?: string }; color?: string }).payload?.fill || (item as { color?: string }).color;
+          const indicatorColor = color || item.payload?.fill || item.color;
 
           return (
             <div
@@ -195,8 +206,8 @@ function ChartTooltipContent({
                 indicator === "dot" && "items-center",
               )}
             >
-              {formatter && (item as { value?: unknown; name?: string }).value !== undefined && (item as { name?: string }).name ? (
-                formatter((item as { value: unknown }).value, (item as { name: string }).name, item, index, (item as { payload?: unknown }).payload)
+              {formatter && item.value !== undefined && item.name ? (
+                formatter(item.value as any, item.name, item as any, index, item.payload as any)
               ) : (
                 <>
                   {itemConfig?.icon ? (
@@ -235,9 +246,9 @@ function ChartTooltipContent({
                         {itemConfig?.label || item.name}
                       </span>
                     </div>
-                    {item.value && (
+                    {item.value !== undefined && item.value !== null && (
                       <span className="text-foreground font-mono font-medium tabular-nums">
-                        {item.value.toLocaleString()}
+                        {String(item.value).toLocaleString()}
                       </span>
                     )}
                   </div>
@@ -263,7 +274,7 @@ function ChartLegendContent({
   Pick<RechartsPrimitive.LegendProps, "verticalAlign"> & {
     hideIcon?: boolean;
     nameKey?: string;
-    payload?: unknown[];
+    payload?: ChartPayloadItem[];
   }) {
   const { config } = useChart();
 
@@ -279,28 +290,32 @@ function ChartLegendContent({
         className,
       )}
     >
-      {payload.map((item: unknown) => {
-        const key = `${nameKey || (item as { dataKey?: string }).dataKey || "value"}`;
+      {payload.map((item: ChartPayloadItem) => {
+        const key = `${nameKey || item.dataKey || "value"}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
         return (
           <div
-            key={(item as { dataKey?: string }).dataKey || key}
+            key={item.dataKey || key}
             className={cn(
-              "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3",
+              "[&>svg]:text-muted-foreground flex items-center gap-2 text-xs",
+              hideIcon && "[&>svg]:hidden",
             )}
           >
-            {!hideIcon && itemConfig?.icon ? (
+            {itemConfig?.icon ? (
               <itemConfig.icon />
             ) : (
               <div
-                className="h-2 w-2 shrink-0 rounded-[2px]"
+                className="size-2 rounded-full border border-current"
                 style={{
-                  backgroundColor: (item as { color?: string }).color,
+                  backgroundColor: item.color,
+                  borderColor: item.color,
                 }}
               />
             )}
-            {itemConfig?.label}
+            <span className="text-muted-foreground">
+              {itemConfig?.label || item.name}
+            </span>
           </div>
         );
       })}

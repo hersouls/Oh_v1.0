@@ -19,84 +19,99 @@ export const useMusicPlayer = () => {
   const soundRef = useRef<Howl | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  // 현재 트랙 변경 시 Howl 인스턴스 생성
+  // 현재 플레이리스트에서 다음 트랙 가져오기
+  const getNextTrack = useCallback(() => {
+    // 현재 트랙이 없으면 null 반환
+    if (!musicState.currentTrack) {
+      console.log('🎵 현재 트랙이 없음');
+      return null;
+    }
+    
+    console.log(`🎵 getNextTrack - 현재 재생 모드: ${musicState.playMode}`);
+    
+    if (musicState.playMode === 'repeat-one') {
+      console.log('🎵 repeat-one 모드: 현재 트랙 반복');
+      return musicState.currentTrack;
+    }
+    
+    if (musicState.playMode === 'shuffle') {
+      // 셔플 모드: 현재 곡 이후 랜덤으로 재생
+      const currentPlaylist = musicState.shuffledPlaylist.length > 0 
+        ? musicState.shuffledPlaylist 
+        : tracks;
+      
+      // 현재 트랙의 인덱스를 셔플된 플레이리스트에서 찾기
+      const currentIndex = currentPlaylist.findIndex(t => t.id === musicState.currentTrack?.id);
+      if (currentIndex === -1) {
+        console.log('🎵 현재 트랙이 셔플 플레이리스트에 없음');
+        return currentPlaylist[0] || null;
+      }
+      
+      // 현재 트랙 이후의 랜덤 트랙 선택
+      const remainingTracks = currentPlaylist.slice(currentIndex + 1);
+      if (remainingTracks.length > 0) {
+        const randomIndex = Math.floor(Math.random() * remainingTracks.length);
+        const nextTrack = remainingTracks[randomIndex];
+        console.log(`🎵 셔플 모드 - 랜덤 다음 트랙: ${nextTrack.title}`);
+        return nextTrack;
+      } else {
+        // 남은 트랙이 없으면 처음부터 랜덤 선택
+        const randomIndex = Math.floor(Math.random() * currentPlaylist.length);
+        const nextTrack = currentPlaylist[randomIndex];
+        console.log(`🎵 셔플 모드 - 처음부터 랜덤 선택: ${nextTrack.title}`);
+        return nextTrack;
+      }
+    }
+    
+    // sequential 모드: 현재 곡 이후 다음 순서 곡 자동재생
+    const currentIndex = tracks.findIndex(t => t.id === musicState.currentTrack?.id);
+    if (currentIndex === -1) {
+      console.log('🎵 현재 트랙이 플레이리스트에 없음');
+      return tracks[0] || null;
+    }
+    
+    const nextIndex = (currentIndex + 1) % tracks.length;
+    const nextTrack = tracks[nextIndex];
+    console.log(`🎵 sequential 모드 - 다음 순서 트랙: ${nextTrack?.title} (인덱스: ${nextIndex})`);
+    return nextTrack;
+  }, [musicState.currentTrack, musicState.playMode, musicState.shuffledPlaylist]);
+
+  // 트랙 변경 시 Howler 인스턴스 생성 및 재생
   useEffect(() => {
     if (musicState.currentTrack) {
-      // 기존 사운드 정리
+      console.log('🎵 트랙 변경됨:', musicState.currentTrack.title);
+      
+      // 기존 Howler 인스턴스 정리
       if (soundRef.current) {
         soundRef.current.stop();
         soundRef.current.unload();
       }
-
-      // 새로운 사운드 생성
+      
+      // 새로운 Howler 인스턴스 생성
       soundRef.current = new Howl({
         src: [musicState.currentTrack.url],
         html5: true,
         preload: true,
-        volume: musicState.volume,
         onload: () => {
-          setMusicState(prev => ({
-            ...prev,
-            duration: soundRef.current?.duration() || 0
-          }));
-        },
-        onend: () => {
-          // 자동으로 다음 트랙 재생 (재생 모드에 따라)
-          console.log('🎵 트랙 종료됨 - 자동 재생 시작');
-          
-          // 현재 상태에서 다음 트랙 가져오기
-          const currentState = musicState;
-          console.log(`🎵 현재 재생 모드: ${currentState.playMode}`);
-          console.log(`🎵 현재 트랙: ${currentState.currentTrack?.title}`);
-          
-          const nextTrack = getNextTrack();
-          if (nextTrack) {
-            // 재생 모드에 따라 인덱스 계산
-            let nextIndex = -1;
-            if (currentState.playMode === 'shuffle') {
-              const currentPlaylist = currentState.shuffledPlaylist.length > 0 
-                ? currentState.shuffledPlaylist 
-                : tracks;
-              nextIndex = currentPlaylist.findIndex(t => t.id === nextTrack.id);
-            } else {
-              nextIndex = tracks.findIndex(t => t.id === nextTrack.id);
-            }
-            
-            console.log(`🎵 자동 재생: ${nextTrack.title} (${nextIndex + 1}/${currentState.playMode === 'shuffle' ? (currentState.shuffledPlaylist.length || tracks.length) : tracks.length}) - 모드: ${currentState.playMode}`);
-            
-            // 상태 업데이트 후 강제로 재생 상태 설정
-            setMusicState(prev => ({
-              ...prev,
-              currentTrack: nextTrack,
-              currentIndex: nextIndex,
-              currentTime: 0,
-              isPlaying: true,
-            }));
-            
-            // 추가로 Howl 인스턴스가 준비되면 재생 시작
-            setTimeout(() => {
-              if (soundRef.current) {
-                soundRef.current.play();
-              }
-            }, 100);
-          } else {
-            // 다음 트랙이 없으면 재생 중지
-            console.log('🎵 다음 트랙이 없어서 재생 중지');
-            setMusicState(prev => ({
-              ...prev,
-              isPlaying: false,
-              currentTime: 0,
-            }));
-          }
+          console.log('🎵 음악 로드 완료:', musicState.currentTrack?.title);
+          setMusicState(prev => ({ ...prev, duration: soundRef.current?.duration() || 0 }));
         },
         onplay: () => {
-          setMusicState(prev => ({ ...prev, isPlaying: true }));
+          console.log('🎵 음악 재생 시작:', musicState.currentTrack?.title);
         },
         onpause: () => {
-          setMusicState(prev => ({ ...prev, isPlaying: false }));
+          console.log('🎵 음악 일시정지:', musicState.currentTrack?.title);
         },
         onstop: () => {
-          setMusicState(prev => ({ ...prev, isPlaying: false, currentTime: 0 }));
+          console.log('🎵 음악 정지:', musicState.currentTrack?.title);
+        },
+        onend: () => {
+          console.log('🎵 음악 재생 완료:', musicState.currentTrack?.title);
+          // 자동으로 다음 트랙 재생
+          const nextTrack = getNextTrack();
+          if (nextTrack) {
+            playTrack(nextTrack);
+          }
         }
       });
     }
@@ -388,63 +403,6 @@ export const useMusicPlayer = () => {
       };
     });
   };
-
-  // 현재 플레이리스트에서 다음 트랙 가져오기
-  const getNextTrack = useCallback(() => {
-    // 현재 트랙이 없으면 null 반환
-    if (!musicState.currentTrack) {
-      console.log('🎵 현재 트랙이 없음');
-      return null;
-    }
-    
-    console.log(`🎵 getNextTrack - 현재 재생 모드: ${musicState.playMode}`);
-    
-    if (musicState.playMode === 'repeat-one') {
-      console.log('🎵 repeat-one 모드: 현재 트랙 반복');
-      return musicState.currentTrack;
-    }
-    
-    if (musicState.playMode === 'shuffle') {
-      // 셔플 모드: 현재 곡 이후 랜덤으로 재생
-      const currentPlaylist = musicState.shuffledPlaylist.length > 0 
-        ? musicState.shuffledPlaylist 
-        : tracks;
-      
-      // 현재 트랙의 인덱스를 셔플된 플레이리스트에서 찾기
-      const currentIndex = currentPlaylist.findIndex(t => t.id === musicState.currentTrack?.id);
-      if (currentIndex === -1) {
-        console.log('🎵 현재 트랙이 셔플 플레이리스트에 없음');
-        return currentPlaylist[0] || null;
-      }
-      
-      // 현재 트랙 이후의 랜덤 트랙 선택
-      const remainingTracks = currentPlaylist.slice(currentIndex + 1);
-      if (remainingTracks.length > 0) {
-        const randomIndex = Math.floor(Math.random() * remainingTracks.length);
-        const nextTrack = remainingTracks[randomIndex];
-        console.log(`🎵 셔플 모드 - 랜덤 다음 트랙: ${nextTrack.title}`);
-        return nextTrack;
-      } else {
-        // 남은 트랙이 없으면 처음부터 랜덤 선택
-        const randomIndex = Math.floor(Math.random() * currentPlaylist.length);
-        const nextTrack = currentPlaylist[randomIndex];
-        console.log(`🎵 셔플 모드 - 처음부터 랜덤 선택: ${nextTrack.title}`);
-        return nextTrack;
-      }
-    }
-    
-    // sequential 모드: 현재 곡 이후 다음 순서 곡 자동재생
-    const currentIndex = tracks.findIndex(t => t.id === musicState.currentTrack?.id);
-    if (currentIndex === -1) {
-      console.log('🎵 현재 트랙이 플레이리스트에 없음');
-      return tracks[0] || null;
-    }
-    
-    const nextIndex = (currentIndex + 1) % tracks.length;
-    const nextTrack = tracks[nextIndex];
-    console.log(`🎵 sequential 모드 - 다음 순서 트랙: ${nextTrack?.title} (인덱스: ${nextIndex})`);
-    return nextTrack;
-  }, [musicState.currentTrack, musicState.playMode, musicState.shuffledPlaylist]);
 
   // 현재 플레이리스트에서 이전 트랙 가져오기
   const getPreviousTrack = () => {
