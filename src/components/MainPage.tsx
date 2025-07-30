@@ -56,20 +56,7 @@ export const MainPage: React.FC<MainPageProps> = ({
 
       <main className="relative z-10 pt-32 pb-32 px-4">
         <div className="max-w-7xl mx-auto">
-          {/* Current Playing Info */}
-          {currentTrack && (
-            <div className="text-center mb-8">
-              <GlassCard variant="light" className="inline-block">
-                <div className="flex items-center justify-center space-x-3">
-                  <div className="w-3 h-3 bg-green-400 rounded-full wave-pulse" />
-                  <Typography.BodySmall className="text-white/80">
-                    현재 재생 중: <span className="font-semibold text-white">{currentTrack.title}</span>
-                    {isPlaying ? ' (재생 중)' : ' (일시정지)'}
-                  </Typography.BodySmall>
-                </div>
-              </GlassCard>
-            </div>
-          )}
+          {/* Current Playing Info - 하단 뮤직플레이어에서만 표시되므로 제거 */}
 
           {/* Tracks Grid */}
           <div className="space-y-16">

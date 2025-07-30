@@ -38,6 +38,7 @@ export default function App() {
 
   const handleTrackPlay = (track: Track) => {
     console.log('🎵 TrackCard에서 재생 버튼 클릭:', track.title);
+    console.log('🎵 하단 뮤직플레이어를 통해서만 재생됩니다');
     
     // 현재 재생 중인 트랙이면 일시정지/재생 토글
     if (musicPlayer.currentTrack?.id === track.id) {
@@ -92,10 +93,12 @@ export default function App() {
             isPlaying={musicPlayer.isPlaying && musicPlayer.currentTrack?.id === selectedTrack.id}
             onBack={handleBack}
             onPlayPause={() => {
+              // 하단 뮤직플레이어를 통해서만 재생
               if (musicPlayer.currentTrack?.id !== selectedTrack.id) {
-                musicPlayer.setCurrentTrack(selectedTrack);
+                musicPlayer.playTrack(selectedTrack);
+              } else {
+                musicPlayer.togglePlay();
               }
-              musicPlayer.togglePlay();
             }}
           />
         ) : null;

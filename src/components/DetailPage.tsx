@@ -91,7 +91,7 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                 className="w-48 h-48 mx-auto rounded-2xl shadow-2xl"
               />
               
-              {/* Play Button Overlay */}
+              {/* Play Button Overlay - 하단 뮤직플레이어를 통해서만 재생 */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <WaveButton
                   onClick={onPlayPause}

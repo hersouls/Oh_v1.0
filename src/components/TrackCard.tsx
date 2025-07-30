@@ -29,6 +29,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
 
   // 재생 버튼 클릭 핸들러 - 하단 뮤직플레이어를 통해서만 재생
   const handlePlayClick = () => {
+    console.log('🎵 TrackCard 재생 버튼 클릭:', track.title);
     onPlay(track);
   };
 
@@ -44,7 +45,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
     <div 
       className={cn(
         'relative group cursor-pointer transition-all duration-300',
-        isCurrent && `ring-2 ${phaseColors.border} shadow-2xl`
+        isCurrent && `ring-2 ${phaseColors.border} shadow-2xl rounded-2xl`
       )}
       onClick={handleCardClick}
       onMouseEnter={() => setIsHovered(true)}
@@ -54,7 +55,7 @@ export const TrackCard: React.FC<TrackCardProps> = ({
         variant="default"
         withWaveEffect={isCurrent}
         className={cn(
-          'overflow-hidden p-0 hover:scale-105',
+          'overflow-hidden p-0 hover:scale-105 rounded-2xl',
           getPhaseGlassBackground(track.theme)
         )}
       >
