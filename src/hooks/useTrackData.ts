@@ -32,7 +32,9 @@ export const useTrackData = () => {
       setTracks(data.tracks);
       setPlaylist(data.playlist);
     } catch (err) {
-      console.error('Failed to load tracks:', err);
+      if (import.meta.env.DEV) {
+        console.error('Failed to load tracks:', err);
+      }
       setError(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);

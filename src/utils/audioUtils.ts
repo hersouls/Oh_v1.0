@@ -148,7 +148,9 @@ export const createAudioStream = (audioElement: HTMLAudioElement): MediaStream |
     
     return destination.stream;
   } catch (error) {
-    console.error('Failed to create audio stream:', error);
+    if (import.meta.env.DEV) {
+      console.error('Failed to create audio stream:', error);
+    }
     return null;
   }
 };
@@ -170,7 +172,9 @@ export const analyzeAudioSpectrum = (audioElement: HTMLAudioElement): number[] =
     
     return Array.from(dataArray);
   } catch (error) {
-    console.error('Failed to analyze audio spectrum:', error);
+    if (import.meta.env.DEV) {
+      console.error('Failed to analyze audio spectrum:', error);
+    }
     return [];
   }
 };

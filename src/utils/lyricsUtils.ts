@@ -261,7 +261,9 @@ export const importLyricsFromJSON = (jsonContent: string): SyncLine[] => {
     const data = JSON.parse(jsonContent);
     return data.lyrics || [];
   } catch (error) {
-    console.error('JSON 파싱 오류:', error);
+    if (import.meta.env.DEV) {
+      console.error('JSON 파싱 오류:', error);
+    }
     return [];
   }
 };

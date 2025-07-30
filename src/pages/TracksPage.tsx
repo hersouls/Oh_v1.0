@@ -14,7 +14,9 @@ export const TracksPage: React.FC = () => {
         setTracks(data.tracks);
         setIsLoading(false);
       } catch (error) {
-        console.error('Failed to load tracks:', error);
+        if (import.meta.env.DEV) {
+          console.error('Failed to load tracks:', error);
+        }
         setIsLoading(false);
       }
     };

@@ -1,4 +1,4 @@
-import { render, screen, waitFor, act } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import App from '../App';
 
 // Mock performance API
@@ -78,7 +78,7 @@ describe('Performance Integration Tests', () => {
 
   test('메모리 사용량이 적절하다', async () => {
     // 메모리 사용량 체크 (실제로는 브라우저에서만 가능)
-    const initialMemory = (performance as any).memory?.usedJSHeapSize || 0;
+    const initialMemory = (performance as typeof performance & { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize || 0;
     
     await act(async () => {
       render(<App />);

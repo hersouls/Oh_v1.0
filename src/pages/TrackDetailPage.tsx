@@ -29,7 +29,9 @@ export const TrackDetailPage: React.FC = () => {
           navigate('/tracks');
         }
       } catch (error) {
-        console.error('트랙 로드 실패:', error);
+        if (import.meta.env.DEV) {
+          console.error('트랙 로드 실패:', error);
+        }
         navigate('/tracks');
       }
     };

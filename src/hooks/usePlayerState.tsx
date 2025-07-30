@@ -238,9 +238,11 @@ export const PlayerProvider: React.FC<PlayerProviderProps> = ({ children }) => {
             }
           }
         }
-      } catch (error) {
-        console.error('Failed to restore player state:', error);
-      }
+              } catch (error) {
+          if (import.meta.env.DEV) {
+            console.error('Failed to restore player state:', error);
+          }
+        }
     }
   }, []);
 

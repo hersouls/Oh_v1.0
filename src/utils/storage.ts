@@ -12,7 +12,9 @@ export const setStorageItem = <T>(key: string, value: T): void => {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
-    console.error(`Failed to save to localStorage: ${key}`, error);
+    if (import.meta.env.DEV) {
+      console.error(`Failed to save to localStorage: ${key}`, error);
+    }
   }
 };
 
@@ -22,7 +24,9 @@ export const getStorageItem = <T>(key: string, defaultValue?: T): T | null => {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : defaultValue || null;
   } catch (error) {
-    console.error(`Failed to read from localStorage: ${key}`, error);
+    if (import.meta.env.DEV) {
+      console.error(`Failed to read from localStorage: ${key}`, error);
+    }
     return defaultValue || null;
   }
 };
@@ -32,7 +36,9 @@ export const removeStorageItem = (key: string): void => {
   try {
     localStorage.removeItem(key);
   } catch (error) {
-    console.error(`Failed to remove from localStorage: ${key}`, error);
+    if (import.meta.env.DEV) {
+      console.error(`Failed to remove from localStorage: ${key}`, error);
+    }
   }
 };
 
@@ -41,7 +47,9 @@ export const clearStorage = (): void => {
   try {
     localStorage.clear();
   } catch (error) {
-    console.error('Failed to clear localStorage', error);
+    if (import.meta.env.DEV) {
+      console.error('Failed to clear localStorage', error);
+    }
   }
 };
 

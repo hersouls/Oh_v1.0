@@ -64,7 +64,9 @@ export const usePlayerState = (initialPlaylist: Track[] = []): UsePlayerStateRet
           isShuffled: parsed.isShuffled ?? prev.isShuffled,
         }));
       } catch (error) {
-        console.error('Failed to restore player state:', error);
+        if (import.meta.env.DEV) {
+          console.error('Failed to restore player state:', error);
+        }
       }
     }
   }, []);

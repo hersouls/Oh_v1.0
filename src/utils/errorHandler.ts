@@ -79,7 +79,9 @@ export class ErrorHandler {
   private sendToErrorTracking(errorInfo: ErrorInfo): void {
     // In a real application, you would send this to your error tracking service
     // For now, we'll just log it
-    console.error('Production error:', errorInfo);
+    if (import.meta.env.DEV) {
+      console.error('Production error:', errorInfo);
+    }
   }
 
   public getErrors(): ErrorInfo[] {
