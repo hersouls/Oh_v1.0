@@ -19,28 +19,38 @@ export default function App() {
   // 앱 시작 시 1번 트랙 자동 재생 (사용자 상호작용 후)
   useEffect(() => {
     if (currentPage === 'main' && !musicPlayer.currentTrack) {
+      let hasInteracted = false;
+      
       // 사용자 상호작용 후에만 자동 재생
       const handleUserInteraction = () => {
+        if (hasInteracted) return;
+        hasInteracted = true;
+        
+        console.log('🎵 사용자 상호작용 감지, 첫 번째 트랙 재생 시작');
         const firstTrack = tracks[0];
         if (firstTrack) {
           musicPlayer.playTrack(firstTrack);
         }
+        
         // 이벤트 리스너 제거
         document.removeEventListener('click', handleUserInteraction);
         document.removeEventListener('keydown', handleUserInteraction);
         document.removeEventListener('touchstart', handleUserInteraction);
+        document.removeEventListener('mousedown', handleUserInteraction);
       };
 
       // 사용자 상호작용 이벤트 리스너 추가
       document.addEventListener('click', handleUserInteraction);
       document.addEventListener('keydown', handleUserInteraction);
       document.addEventListener('touchstart', handleUserInteraction);
+      document.addEventListener('mousedown', handleUserInteraction);
 
       // 클린업 함수
       return () => {
         document.removeEventListener('click', handleUserInteraction);
         document.removeEventListener('keydown', handleUserInteraction);
         document.removeEventListener('touchstart', handleUserInteraction);
+        document.removeEventListener('mousedown', handleUserInteraction);
       };
     }
   }, [currentPage, musicPlayer.currentTrack, musicPlayer]);

@@ -176,6 +176,11 @@ export const MusicPlayer: React.FC<MusicPlayerProps> = ({
                   console.log('🎵 현재 트랙:', currentTrack?.title);
                   console.log('🎵 현재 재생 상태:', isPlaying);
                   console.log('🎵 트랙 URL:', currentTrack?.url);
+                  console.log('🎵 트랙 ID:', currentTrack?.id);
+                  
+                  // 사용자 상호작용 확인
+                  console.log('🎵 사용자 상호작용 감지됨');
+                  
                   onPlayPause();
                 }}
                 variant="primary"
