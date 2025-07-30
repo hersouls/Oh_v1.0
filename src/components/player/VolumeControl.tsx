@@ -29,18 +29,20 @@ export const VolumeControl: React.FC<VolumeControlProps> = ({
 
   return (
     <div
+      data-testid="volume-control"
       className="flex items-center space-x-2 group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* 볼륨 아이콘 */}
-      <div className="p-2 text-white">
+      <div className="p-2 text-white" data-testid="volume-icon">
         {getVolumeIcon()}
       </div>
 
       {/* 볼륨 슬라이더 */}
       <div className={`transition-all duration-200 ${isHovered ? 'w-20 opacity-100' : 'w-0 opacity-0 overflow-hidden'}`}>
         <input
+          data-testid="volume-slider"
           type="range"
           min="0"
           max="1"

@@ -77,7 +77,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = memo(({
   }
 
   return (
-    <div className={`audio-player ${className}`}>
+    <div data-testid="music-player" className={`audio-player ${className}`}>
       <div className="audio-player-content">
         <TrackInfo track={currentTrack} />
         

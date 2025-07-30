@@ -68,6 +68,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
     <div className="flex items-center space-x-4">
       {/* 셔플 버튼 */}
       <button
+        data-testid="shuffle-button"
         onClick={onToggleShuffle}
         className={`p-2 rounded-full hover:bg-white/10 transition-colors ${
           isShuffled ? 'text-moonwave-400' : 'text-gray-400'
@@ -79,6 +80,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
 
       {/* 이전 곡 버튼 */}
       <button
+        data-testid="prev-button"
         onClick={onPrevious}
         className="p-2 rounded-full hover:bg-white/10 transition-colors text-white"
         title="이전 곡"
@@ -88,6 +90,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
 
       {/* 재생/정지 버튼 */}
       <button
+        data-testid="play-pause-button"
         onClick={onTogglePlay}
         disabled={isLoading}
         className="flex items-center justify-center w-12 h-12 rounded-full bg-moonwave-500 hover:bg-moonwave-600 transition-colors disabled:opacity-50"
@@ -96,14 +99,15 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
         {isLoading ? (
           <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
         ) : isPlaying ? (
-          <PauseIcon className="w-6 h-6 text-white" />
+          <PauseIcon className="w-6 h-6 text-white" data-testid="pause-icon" />
         ) : (
-          <PlayIcon className="w-6 h-6 text-white ml-0.5" />
+          <PlayIcon className="w-6 h-6 text-white ml-0.5" data-testid="play-icon" />
         )}
       </button>
 
       {/* 다음 곡 버튼 */}
       <button
+        data-testid="next-button"
         onClick={onNext}
         className="p-2 rounded-full hover:bg-white/10 transition-colors text-white"
         title="다음 곡"
@@ -113,6 +117,7 @@ export const PlayerControls: React.FC<PlayerControlsProps> = ({
 
       {/* 반복 버튼 */}
       <button
+        data-testid="repeat-button"
         onClick={onCycleRepeat}
         className={`p-2 rounded-full hover:bg-white/10 transition-colors ${getRepeatColor()}`}
         title={`반복: ${repeatMode === 'none' ? '끄기' : repeatMode === 'one' ? '한 곡' : '전체'}`}

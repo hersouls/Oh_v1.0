@@ -7,7 +7,7 @@ interface TrackInfoProps {
 
 export const TrackInfo: React.FC<TrackInfoProps> = ({ track }) => {
   return (
-    <div className="flex items-center space-x-3">
+    <div data-testid="current-track-info" className="flex items-center space-x-3">
       {/* 커버 이미지 */}
       <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
         <img
@@ -20,8 +20,8 @@ export const TrackInfo: React.FC<TrackInfoProps> = ({ track }) => {
 
       {/* 트랙 정보 */}
       <div className="flex-1 min-w-0">
-        <h3 className="text-white font-medium truncate">{track.title}</h3>
-        <p className="text-gray-300 text-sm truncate">{track.artist}</p>
+        <h3 data-testid="track-title" className="text-white font-medium truncate">{track.title}</h3>
+        <p data-testid="track-artist" className="text-gray-300 text-sm truncate">{track.artist}</p>
       </div>
     </div>
   );

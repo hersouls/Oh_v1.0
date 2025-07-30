@@ -126,23 +126,30 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
 
       {/* 진행바 */}
       <div
+        data-testid="progress-bar"
         ref={progressRef}
         className="relative h-2 bg-white/20 rounded-full cursor-pointer overflow-hidden touch-none"
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart}
         onClick={handleClick}
         onTouchEnd={handleTouch}
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={duration}
+        aria-valuenow={displayTime}
       >
 
 
         {/* 진행률 */}
         <div
+          data-testid="progress-fill"
           className="absolute top-0 left-0 h-full bg-gradient-to-r from-moonwave-400 to-moonwave-500 rounded-full transition-all duration-100"
           style={{ width: `${displayProgress}%` }}
         />
 
         {/* 드래그 핸들 */}
         <div
+          data-testid="progress-handle"
           className="absolute top-1/2 w-3 h-3 bg-white rounded-full shadow-lg transform -translate-y-1/2 -translate-x-1/2 opacity-0 hover:opacity-100 transition-opacity"
           style={{ left: `${displayProgress}%` }}
         />
