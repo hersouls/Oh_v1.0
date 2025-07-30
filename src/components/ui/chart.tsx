@@ -126,8 +126,8 @@ function ChartTooltipContent({
     nameKey?: string;
     labelKey?: string;
   } & {
-    payload?: any[];
-    label?: any;
+    payload?: unknown[];
+    label?: unknown;
   }) {
   const { config } = useChart();
 
@@ -182,10 +182,10 @@ function ChartTooltipContent({
     >
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
-        {payload?.map((item: any, index: number) => {
-          const key = `${nameKey || item.name || item.dataKey || "value"}`;
+        {payload?.map((item: unknown, index: number) => {
+          const key = `${nameKey || (item as { name?: string; dataKey?: string }).name || (item as { dataKey?: string }).dataKey || "value"}`;
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
-          const indicatorColor = color || item.payload.fill || item.color;
+          const indicatorColor = color || (item as { payload?: { fill?: string }; color?: string }).payload?.fill || (item as { color?: string }).color;
 
           return (
             <div
@@ -195,8 +195,8 @@ function ChartTooltipContent({
                 indicator === "dot" && "items-center",
               )}
             >
-              {formatter && item?.value !== undefined && item.name ? (
-                formatter(item.value, item.name, item, index, item.payload)
+              {formatter && (item as { value?: unknown; name?: string }).value !== undefined && (item as { name?: string }).name ? (
+                formatter((item as { value: unknown }).value, (item as { name: string }).name, item, index, (item as { payload?: unknown }).payload)
               ) : (
                 <>
                   {itemConfig?.icon ? (
@@ -263,7 +263,7 @@ function ChartLegendContent({
   Pick<RechartsPrimitive.LegendProps, "verticalAlign"> & {
     hideIcon?: boolean;
     nameKey?: string;
-    payload?: any[];
+    payload?: unknown[];
   }) {
   const { config } = useChart();
 
@@ -279,24 +279,24 @@ function ChartLegendContent({
         className,
       )}
     >
-      {payload.map((item: any) => {
-        const key = `${nameKey || item.dataKey || "value"}`;
+      {payload.map((item: unknown) => {
+        const key = `${nameKey || (item as { dataKey?: string }).dataKey || "value"}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
 
         return (
           <div
-            key={item.value}
+            key={(item as { dataKey?: string }).dataKey || key}
             className={cn(
               "[&>svg]:text-muted-foreground flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3",
             )}
           >
-            {itemConfig?.icon && !hideIcon ? (
+            {!hideIcon && itemConfig?.icon ? (
               <itemConfig.icon />
             ) : (
               <div
                 className="h-2 w-2 shrink-0 rounded-[2px]"
                 style={{
-                  backgroundColor: item.color,
+                  backgroundColor: (item as { color?: string }).color,
                 }}
               />
             )}
