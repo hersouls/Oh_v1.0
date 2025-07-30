@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { TrackCard } from '../TrackCard';
 import { Track } from '@/types';
@@ -9,11 +8,10 @@ const mockTrack: Track = {
   artist: 'Test Artist',
   album: 'Test Album',
   duration: 180,
+  file: '/music/test.mp3',
   cover: '/covers/test.jpg',
-  audio: '/music/test.mp3',
   lyrics: [],
   interpretation: 'Test interpretation',
-  syncLines: [],
   description: 'Test description',
 };
 
@@ -94,7 +92,7 @@ describe('TrackCard', () => {
   });
 
   it('handles track without description', () => {
-    const trackWithoutDescription = { ...mockTrack, description: undefined };
+    const trackWithoutDescription = { ...mockTrack, description: undefined as string | undefined };
     render(<TrackCard {...defaultProps} track={trackWithoutDescription} />);
     expect(screen.getByText('Test Song')).toBeInTheDocument();
     expect(screen.getByText('Test Artist')).toBeInTheDocument();
@@ -103,7 +101,7 @@ describe('TrackCard', () => {
   });
 
   it('handles onPlay callback being undefined', () => {
-    render(<TrackCard {...defaultProps} onPlay={undefined} />);
+    render(<TrackCard {...defaultProps} onPlay={undefined as ((track: Track) => void) | undefined} />);
     const playButton = screen.getByRole('button');
     // Should not throw error when clicked
     expect(() => fireEvent.click(playButton)).not.toThrow();

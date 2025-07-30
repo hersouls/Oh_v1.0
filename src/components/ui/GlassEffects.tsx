@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { clsx } from 'clsx';
 
 interface GlassEffectsProps {
@@ -55,8 +55,8 @@ export const GlassEffects: React.FC<GlassEffectsProps> = ({
         className
       )}
       style={{
-        borderOpacity: borderOpacity
-      }}
+        '--border-opacity': borderOpacity
+      } as React.CSSProperties}
     >
       {/* 투명도 오버레이 */}
       <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />

@@ -162,7 +162,7 @@ describe('AudioPlayer', () => {
   });
 
   test('트랙이 없을 때 비활성화된 상태로 표시된다', () => {
-    render(<AudioPlayer {...defaultProps} currentTrack={null} />);
+    render(<AudioPlayer {...defaultProps} currentTrack={null as Track | null} />);
 
     // 트랙이 없을 때는 컴포넌트가 렌더링되지 않을 수 있음
     expect(screen.queryByTitle('재생')).not.toBeInTheDocument();

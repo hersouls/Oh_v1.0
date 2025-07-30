@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { clsx } from 'clsx';
 
 interface HoverAnimationProps {
@@ -19,7 +19,6 @@ export const HoverAnimation: React.FC<HoverAnimationProps> = ({
   intensity = 'medium',
   duration = 'normal',
   delay = 0,
-  _trigger = 'hover',
   disabled = false
 }) => {
   const typeClasses = {
@@ -65,17 +64,13 @@ export const HoverAnimation: React.FC<HoverAnimationProps> = ({
     slow: 'duration-500'
   };
 
-  const _triggerClasses = {
-    hover: '',
-    focus: 'focus:',
-    both: 'hover: focus:'
-  };
+
 
   const getAnimationClasses = () => {
     if (disabled) return '';
     
     const baseClass = typeClasses[type];
-    const intensityClass = intensityClasses[intensity][type] || '';
+    const intensityClass = intensityClasses[intensity]?.[type] || '';
     const durationClass = durationClasses[duration];
     
     return clsx(
