@@ -12,6 +12,10 @@ export class ErrorHandler {
   private errors: ErrorInfo[] = [];
 
   private constructor() {
+    // Constructor is private for singleton pattern
+  }
+
+  public initialize(): void {
     this.setupGlobalErrorHandling();
   }
 
@@ -62,12 +66,12 @@ export class ErrorHandler {
     this.errors.push(errorInfo);
     
     // Console logging in development
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       console.error('Error logged:', errorInfo);
     }
 
     // Send to analytics or error tracking service in production
-    if (process.env.NODE_ENV === 'production') {
+    if (import.meta.env.PROD) {
       this.sendToErrorTracking(errorInfo);
     }
   }
@@ -95,7 +99,7 @@ export class ErrorHandler {
 export const errorHandler = ErrorHandler.getInstance();
 
 // Utility function to wrap async functions with error handling
-export function withErrorHandling<T extends any[], R>(
+export function withErrorHandling<T extends unknown[], R>(
   fn: (...args: T) => Promise<R>
 ): (...args: T) => Promise<R> {
   return async (...args: T): Promise<R> => {

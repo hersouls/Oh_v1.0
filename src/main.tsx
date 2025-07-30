@@ -5,7 +5,7 @@ import './index.css'
 import { errorHandler } from './utils/errorHandler'
 
 // Initialize error handling
-errorHandler;
+errorHandler.initialize();
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
