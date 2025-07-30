@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:prod": "tsc && vite build --mode production",
     "preview": "vite preview",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 20",
     "lint:fix": "eslint src --ext ts,tsx --fix",
@@ -29,6 +30,7 @@
     "deploy": "npm run build && npm run preview",
     "deploy:gh": "npm run build && gh-pages -d dist",
     "deploy:check": "npm run lint && npm run type-check && npm run build",
+    "deploy:prod": "npm run build:prod && npm run preview",
     "pwa:generate": "vite-plugin-pwa",
     "pwa:validate": "npx @vite-pwa/assets-generator",
     "preview:prod": "npm run build && serve -s dist"
@@ -95,6 +97,7 @@
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "tailwindcss": "^4.1.11",
+    "terser": "^5.43.1",
     "ts-jest": "^29.4.0",
     "vite-bundle-analyzer": "^1.1.0"
   }

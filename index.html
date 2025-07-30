@@ -7,6 +7,12 @@
     <title>Moonwave 오안나 음악 플레이어</title>
     <meta name="description" content="평범함에서 특별함으로 - 13곡의 음악 여정을 위한 완전한 음악 플레이어" />
     
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    
     <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#0ea5e9" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -16,17 +22,40 @@
     <link rel="manifest" href="/manifest.json" />
     
     <!-- SEO Meta Tags -->
-    <meta name="keywords" content="음악, 플레이어, 오안나, 문유, Moonwave, 한국음악" />
+    <meta name="keywords" content="음악, 플레이어, 오안나, 문유, Moonwave, 한국음악, 음악여정" />
     <meta name="author" content="Moonwave Team" />
     <meta property="og:title" content="Moonwave 오안나 음악 플레이어" />
     <meta property="og:description" content="평범함에서 특별함으로 - 13곡의 음악 여정" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://oh.moonwave.kr" />
     <meta property="og:image" content="https://oh.moonwave.kr/moonwave_log.png" />
+    <meta property="og:site_name" content="Moonwave" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Moonwave 오안나 음악 플레이어" />
     <meta name="twitter:description" content="평범함에서 특별함으로 - 13곡의 음악 여정" />
     <meta name="twitter:image" content="https://oh.moonwave.kr/moonwave_log.png" />
+    
+    <!-- Performance Optimizations -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="//oh.moonwave.kr" />
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Moonwave 오안나 음악 플레이어",
+      "description": "평범함에서 특별함으로 - 13곡의 음악 여정을 위한 완전한 음악 플레이어",
+      "url": "https://oh.moonwave.kr",
+      "applicationCategory": "MusicApplication",
+      "operatingSystem": "Web Browser",
+      "author": {
+        "@type": "Organization",
+        "name": "Moonwave Team"
+      }
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

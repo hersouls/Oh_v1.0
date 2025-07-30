@@ -1,378 +1,196 @@
-# 🎧 문유 (Moonwave Oh Anna) - 13개의 순간
+# Moonwave 오안나 음악 플레이어
 
 > "평범함에서 특별함으로" - 재능보다 노력으로, 한계를 넘어 자신만의 빛을 찾아가는 여정을 13개의 트랙으로 표현한 음악 플레이어
 
-[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live-blue?style=flat-square)](https://oh.moonwave.kr)
-[![React](https://img.shields.io/badge/React-18.0+-blue?style=flat-square&logo=react)](https://reactjs.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.0+-purple?style=flat-square&logo=vite)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.0+-cyan?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
-[![PWA](https://img.shields.io/badge/PWA-Ready-green?style=flat-square&logo=pwa)](https://web.dev/progressive-web-apps/)
+## 🌟 프로덕션 배포 가이드
 
-## 📖 프로젝트 개요
+### 🚀 빠른 배포
 
-**문유**는 리듬체조 선수 오안나의 성장 여정을 13곡의 음악으로 재해석한 웹 기반 음악 플레이어입니다. 평범한 재능에서 시작해 비범한 노력으로 국가대표가 된 오안나의 스토리를 음악과 함께 경험할 수 있습니다.
+```bash
+# 프로덕션 빌드 및 배포
+npm run deploy:prod
 
-### 🌟 주요 특징
-
-- 🎵 **13곡 음악 플레이어**: 오안나의 여정을 담은 13개 트랙
-- 📱 **PWA 지원**: 모바일 앱처럼 설치 가능
-- 🎨 **글래스모피즘 디자인**: 현대적이고 세련된 UI
-- 📖 **가사 싱크**: 실시간 가사 하이라이팅
-- 💫 **스토리텔링**: 음악과 함께하는 감정적 여정
-- ♿ **접근성**: 모든 사용자를 위한 포용적 디자인
-
-### 🎯 핵심 메시지
-
-> "타고난 것보다 만들어가는 것" - 재능보다 노력으로, 한계를 넘어 자신만의 빛을 찾아가는 여정
-
-## 🚀 라이브 데모
-
-**🌐 웹사이트**: [https://oh.moonwave.kr](https://oh.moonwave.kr)
-
-> **Note**: GitHub Pages deployment is being set up. The site will be available shortly.
-
-## 🛠️ 기술 스택
-
-### Frontend
-- **React 18** - 사용자 인터페이스 구축
-- **Vite** - 빠른 개발 환경 및 빌드 도구
-- **TypeScript** - 타입 안전성 보장
-
-### Styling & UI
-- **Tailwind CSS** - 유틸리티 퍼스트 CSS 프레임워크
-- **Catalyst UI** - 모던 React 컴포넌트 라이브러리
-- **Framer Motion** - 부드러운 애니메이션
-
-### Audio & Media
-- **HTML5 Audio API** - 음악 재생 제어
-- **Web Audio API** - 고급 오디오 처리
-
-### Deployment & Hosting
-- **GitHub Pages** - 정적 웹사이트 호스팅
-- **GitHub Actions** - 자동 배포 파이프라인
-
-### PWA Features
-- **Service Worker** - 오프라인 지원
-- **Web App Manifest** - 앱 설치 기능
-- **Cache API** - 리소스 캐싱
-
-## 📁 프로젝트 구조
-
-```
-Oh_v1.0/
-├── docs/                    # 프로젝트 문서
-│   ├── 화면정의서          # UI/UX 상세 정의
-│   ├── PRD                 # 제품 요구사항 문서
-│   ├── Profile             # 오안나 프로필 정보
-│   └── 디자인가이드        # 브랜드 디자인 가이드
-├── public/                  # 정적 리소스
-│   ├── music/              # 음원 파일 (.mp3)
-│   ├── covers/             # 앨범 커버 이미지
-│   ├── sample-tracks.json  # 트랙 메타데이터
-│   └── moonwave_log.png    # 브랜드 로고
-├── src/                    # 소스 코드
-│   ├── components/         # React 컴포넌트
-│   ├── pages/             # 페이지 컴포넌트
-│   ├── hooks/             # 커스텀 훅
-│   ├── utils/             # 유틸리티 함수
-│   └── types/             # TypeScript 타입 정의
-├── README.md              # 프로젝트 문서
-└── package.json           # 의존성 관리
+# 또는 배포 스크립트 사용
+./scripts/deploy.sh
 ```
 
-## 🎵 음원 구성
+### 📋 배포 전 체크리스트
 
-### 트랙 목록
-1. **Shine Bright** - 자신만의 빛을 찾아가는 마지막 선언곡
-2. **Beginning** - 평범한 시작의 순간
-3. **Growth** - 노력과 성장의 과정
-4. **Challenge** - 도전과 극복의 여정
-5. **Shine** - 자신만의 빛을 발산하는 순간
-6. **Rhythm** - 리듬체조의 리듬을 음악으로
-7. **Grace** - 우아함과 아름다움
-8. **Passion** - 열정과 의지
-9. **Dream** - 꿈을 향한 여정
-10. **Victory** - 승리의 순간
-11. **Light** - 내면의 빛
-12. **Future** - 미래를 향한 발걸음
-13. **Eternal** - 영원한 빛
+- [ ] 모든 테스트 통과
+- [ ] 린팅 검사 통과
+- [ ] TypeScript 타입 체크 통과
+- [ ] 프로덕션 빌드 성공
+- [ ] 번들 크기 최적화 확인
+- [ ] SSL 인증서 설정
+- [ ] 도메인 DNS 설정
+- [ ] CDN 설정 (선택사항)
 
-### 데이터 구조
-```json
-{
-  "id": 1,
-  "title": "Shine Bright",
-  "artist": "문유",
-  "audioUrl": "/music/shine-bright.mp3",
-  "coverUrl": "/covers/shine-bright.jpg",
-  "description": "오안나가 자신의 리듬, 궤적, 침묵, 파동 위에 스스로 빛이 되어 무대를 밝혀낸 마지막 선언곡",
-  "lyrics": "숨죽인 무대 위...",
-  "interpretation": "이 곡은 외부 조명 없이도 자신의 내면에서 발산되는 빛을 상징합니다...",
-  "sync": [
-    { "time": 0, "line": "숨죽인 무대 위" },
-    { "time": 5, "line": "조명 없는 나의 길" }
-  ],
-  "theme": "shine"
-}
+### 🔧 서버 설정
+
+#### Nginx 설정
+
+1. `nginx.conf` 파일을 서버의 nginx 설정 디렉토리에 복사
+2. SSL 인증서 경로 수정
+3. 루트 디렉토리 경로 수정
+4. nginx 재시작
+
+```bash
+sudo cp nginx.conf /etc/nginx/sites-available/oh.moonwave.kr
+sudo ln -s /etc/nginx/sites-available/oh.moonwave.kr /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
 ```
 
-## 🎨 디자인 시스템
+#### SSL 인증서 설정
 
-### 컬러 팔레트
-- **Primary**: Purple (#a855f7) - 메인 브랜드 컬러
-- **Secondary**: Pink (#ec4899) - 보조 컬러
-- **Background**: White/Gray - 깔끔한 배경
-- **Text**: Dark Gray - 가독성 높은 텍스트
+Let's Encrypt 사용 예시:
 
-### 타이포그래피
-- **한글**: Pretendard - 한글 최적화 폰트
-- **영문**: Inter - 현대적인 영문 폰트
+```bash
+sudo certbot --nginx -d oh.moonwave.kr
+```
 
-### 컴포넌트
-- **글래스모피즘**: 반투명 배경과 블러 효과
-- **카드 디자인**: 그림자와 둥근 모서리
-- **버튼**: 호버 효과와 부드러운 전환
+### 📦 배포 파일 구조
 
-## 📱 화면 구성
+```
+dist/
+├── index.html
+├── assets/
+│   ├── css/
+│   ├── js/
+│   └── images/
+├── music/
+├── covers/
+├── manifest.json
+├── sw.js
+├── sitemap.xml
+└── robots.txt
+```
 
-### 1. 인트로 페이지
-- 프로젝트 소개 및 브랜딩
-- "음악으로 만나기" CTA 버튼
-- 페이드인/아웃 애니메이션
+### 🔒 보안 설정
 
-### 2. 메인 페이지
-- 13개 트랙 그리드 레이아웃
-- 하단 고정 플레이어
-- 반응형 디자인 (1-4열 그리드)
+- HTTPS 강제 리다이렉트
+- 보안 헤더 설정
+- Rate limiting
+- 파일 접근 제한
+- CSP (Content Security Policy)
 
-### 3. 상세 뷰 페이지
-- 트랙별 상세 정보
-- 가사/해석/싱크 가사 탭
-- 실시간 가사 하이라이팅
+### ⚡ 성능 최적화
 
-### 4. 오안나 소개 페이지
-- 오안나의 스토리와 타임라인
-- 리듬체조 선수로서의 여정
-- 음악과 연결된 내러티브
+- Gzip 압축
+- 정적 자산 캐싱
+- 오디오 파일 캐싱
+- 번들 분할
+- 이미지 최적화
 
-## 🚀 시작하기
+### 📱 PWA 기능
+
+- 오프라인 지원
+- 앱 설치 가능
+- 백그라운드 동기화
+- 푸시 알림 (선택사항)
+
+### 🔍 SEO 최적화
+
+- 메타 태그 최적화
+- 구조화된 데이터
+- 사이트맵
+- robots.txt
+- Open Graph 태그
+
+### 📊 모니터링
+
+- Google Analytics 설정
+- 에러 로깅
+- 성능 모니터링
+- 사용자 행동 분석
+
+### 🚨 문제 해결
+
+#### 일반적인 문제들
+
+1. **SPA 라우팅 문제**
+   - nginx에서 `try_files` 설정 확인
+   - 모든 경로가 `index.html`로 리다이렉트되는지 확인
+
+2. **캐싱 문제**
+   - 브라우저 캐시 클리어
+   - 서버 캐시 설정 확인
+
+3. **SSL 문제**
+   - 인증서 경로 확인
+   - 인증서 만료일 확인
+
+4. **성능 문제**
+   - 번들 분석 실행: `npm run analyze`
+   - 이미지 최적화 확인
+   - CDN 사용 고려
+
+### 📞 지원
+
+- 이슈 리포트: [GitHub Issues](https://github.com/hersouls/Oh_v1.0/issues)
+- 이메일: support@moonwave.kr
+
+---
+
+## 🛠️ 개발 환경
 
 ### 필수 요구사항
-- Node.js 18.0 이상
-- npm 또는 yarn
+
+- Node.js >= 18.0.0
+- npm >= 8.0.0
 
 ### 설치 및 실행
 
-1. **저장소 클론**
 ```bash
-git clone https://github.com/hersouls/Oh_v1.0.git
-cd Oh_v1.0
-```
-
-2. **의존성 설치**
-```bash
+# 의존성 설치
 npm install
-# 또는
-yarn install
-```
 
-3. **개발 서버 실행**
-```bash
+# 개발 서버 실행
 npm run dev
-# 또는
-yarn dev
-```
 
-4. **브라우저에서 확인**
-```
-http://localhost:5173
-```
-
-### 빌드 및 배포
-
-1. **프로덕션 빌드**
-```bash
+# 프로덕션 빌드
 npm run build
-# 또는
-yarn build
-```
 
-2. **빌드 결과 확인**
-```bash
-npm run preview
-# 또는
-yarn preview
-```
-
-## 🔧 개발 가이드
-
-### 컴포넌트 개발
-```tsx
-// 예시: 트랙 카드 컴포넌트
-import { Card, Button, Heading, Text } from '@catalyst/ui';
-
-interface TrackCardProps {
-  track: Track;
-  onPlay: (track: Track) => void;
-}
-
-export const TrackCard = ({ track, onPlay }: TrackCardProps) => {
-  return (
-    <Card className="hover:shadow-lg transition-all duration-200">
-      <div className="relative">
-        <img 
-          src={track.coverUrl} 
-          alt={track.title}
-          className="aspect-square object-cover rounded-lg"
-        />
-        <Button
-          shape="circle"
-          className="absolute inset-center"
-          onClick={() => onPlay(track)}
-        >
-          <PlayIcon />
-        </Button>
-      </div>
-      <CardContent>
-        <Heading level={3}>{track.title}</Heading>
-        <Text color="gray">문유</Text>
-      </CardContent>
-    </Card>
-  );
-};
-```
-
-### 상태 관리
-```tsx
-// 예시: 플레이어 상태 관리
-export const usePlayerState = () => {
-  const [currentTrack, setCurrentTrack] = useState<Track | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-
-  const playTrack = (track: Track) => {
-    setCurrentTrack(track);
-    setIsPlaying(true);
-  };
-
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying);
-  };
-
-  return {
-    currentTrack,
-    isPlaying,
-    currentTime,
-    duration,
-    playTrack,
-    togglePlay,
-    setCurrentTime
-  };
-};
-```
-
-## 📱 PWA 기능
-
-### 설치 방법
-1. 웹사이트 방문
-2. 브라우저 주소창의 설치 아이콘 클릭
-3. "홈 화면에 추가" 선택
-
-### 오프라인 지원
-- 음원 및 이미지 캐싱
-- 기본 UI 오프라인 동작
-- 백그라운드 동기화
-
-## ♿ 접근성
-
-### 지원 기능
-- **키보드 네비게이션**: 모든 기능 키보드로 접근 가능
-- **스크린 리더**: ARIA 라벨 및 역할 정의
-- **고대비 모드**: 색상 대비 최적화
-- **음성 안내**: 재생 상태 및 가사 읽기
-
-### 접근성 컴포넌트
-```tsx
-// 예시: 접근성 개선된 플레이어
-<div role="region" aria-label="음악 플레이어">
-  <Button
-    aria-label={isPlaying ? "음악 정지" : "음악 재생"}
-    onClick={togglePlay}
-  >
-    {isPlaying ? <PauseIcon /> : <PlayIcon />}
-  </Button>
-</div>
-```
-
-## 🧪 테스트
-
-### 실행 방법
-```bash
+# 테스트 실행
 npm run test
-# 또는
-yarn test
+
+# 린팅 검사
+npm run lint
 ```
 
-### 테스트 커버리지
-```bash
-npm run test:coverage
-# 또는
-yarn test:coverage
-```
+### 스크립트
 
-## 📦 배포
+- `npm run dev` - 개발 서버 실행
+- `npm run build` - 프로덕션 빌드
+- `npm run build:prod` - 최적화된 프로덕션 빌드
+- `npm run preview` - 빌드 결과 미리보기
+- `npm run test` - 테스트 실행
+- `npm run lint` - 코드 린팅
+- `npm run analyze` - 번들 분석
+- `./scripts/deploy.sh` - 자동 배포 스크립트
 
-### GitHub Pages 자동 배포
-- `main` 브랜치에 푸시 시 자동 배포
-- GitHub Actions 워크플로우 구성
-- 빌드 결과 자동 업로드
+## 🎵 음악 플레이어 기능
 
-### 배포 URL
-- **프로덕션**: https://oh.moonwave.kr
-- **개발**: https://hersouls.github.io/Oh_v1.0
+- 13곡의 완전한 음악 여정
+- 고품질 오디오 재생
+- 가사 싱크 기능
+- 반응형 디자인
+- PWA 지원
+- 오프라인 재생
 
-## 🤝 기여하기
+## 🎨 기술 스택
 
-### 기여 방법
-1. 이 저장소를 포크합니다
-2. 새로운 브랜치를 생성합니다 (`git checkout -b feature/amazing-feature`)
-3. 변경사항을 커밋합니다 (`git commit -m 'Add amazing feature'`)
-4. 브랜치에 푸시합니다 (`git push origin feature/amazing-feature`)
-5. Pull Request를 생성합니다
-
-### 개발 가이드라인
-- TypeScript 사용
-- ESLint 규칙 준수
-- 컴포넌트 단위 테스트 작성
-- 접근성 고려
+- **Frontend**: React 19, TypeScript
+- **Styling**: Tailwind CSS
+- **Audio**: Howler.js
+- **Build**: Vite
+- **Testing**: Jest, Playwright
+- **Deployment**: Nginx, SSL
 
 ## 📄 라이선스
 
-이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
-
-## 👥 팀
-
-- **개발**: Moonwave Team
-- **디자인**: Moonwave Design Team
-- **음악**: 문유 (Moonwave Music)
-
-## 📞 문의
-
-- **이메일**: contact@moonwave.kr
-- **웹사이트**: https://moonwave.kr
-- **GitHub**: https://github.com/hersouls
-
-## 🙏 감사의 말
-
-- 오안나 선수와 그녀의 영감을 주는 여정
-- 리듬체조의 아름다움과 예술성
-- 모든 사용자들의 지지와 피드백
+MIT License - 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
 
 ---
 
-**⭐ 이 프로젝트가 도움이 되었다면 스타를 눌러주세요!**
-
----
-
-*"평범함에서 특별함으로" - 문유와 함께하는 13개의 순간*
+**Moonwave Team** - 평범함에서 특별함으로 🌙✨

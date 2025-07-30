@@ -17,10 +17,14 @@ export default defineConfig({
           vendor: ['react', 'react-dom'],
           router: ['react-router-dom'],
           utils: ['clsx', 'tailwind-merge'],
+          audio: ['howler'],
         },
       },
     },
     chunkSizeWarningLimit: 1000,
+    minify: 'esbuild',
+    sourcemap: false,
+    target: 'es2015',
   },
   server: {
     port: 3000,
@@ -29,5 +33,8 @@ export default defineConfig({
   preview: {
     port: 4173,
     host: true,
+  },
+  define: {
+    __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
   },
 })

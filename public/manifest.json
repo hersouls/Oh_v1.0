@@ -40,5 +40,31 @@
       "type": "image/png",
       "form_factor": "narrow"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "트랙 목록",
+      "short_name": "트랙",
+      "description": "모든 트랙 목록 보기",
+      "url": "/tracks",
+      "icons": [
+        {
+          "src": "/moonwave_log.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "소개",
+      "short_name": "소개",
+      "description": "오안나 소개",
+      "url": "/about",
+      "icons": [
+        {
+          "src": "/moonwave_log.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
   ]
 }
