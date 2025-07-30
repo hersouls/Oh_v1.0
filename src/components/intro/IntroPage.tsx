@@ -8,8 +8,6 @@ interface IntroPageProps {
 }
 
 export const IntroPage: React.FC<IntroPageProps> = ({ onStart, className }) => {
-  console.log('IntroPage 렌더링 중...');
-  
   return (
     <div className={`min-h-screen flex items-center justify-center relative overflow-hidden ${className}`}>
       {/* 배경 그라디언트 */}

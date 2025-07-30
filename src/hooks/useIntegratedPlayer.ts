@@ -37,9 +37,9 @@ export const useIntegratedPlayer = () => {
       if (nextIndex < state.playlist.length) {
         const nextTrack = state.playlist[nextIndex];
         if (nextTrack) {
-          audioPreloader.preloadAudio(nextTrack.file).catch(error => {
-          console.warn('Failed to preload next track:', error);
-        });
+          audioPreloader.preloadAudio(nextTrack.file).catch(() => {
+            // Failed to preload next track - silent fail
+          });
         }
       }
     }
@@ -59,8 +59,8 @@ export const useIntegratedPlayer = () => {
     actions.playNext();
   }, [actions]);
 
-  const handleError = useCallback((error: Event) => {
-    console.error('Audio playback error:', error);
+  const handleError = useCallback((_error: Event) => {
+    // Audio playback error - silent fail
     actions.clearError();
   }, [actions]);
 
@@ -156,9 +156,9 @@ export const useIntegratedPlayer = () => {
       if (tracks.length > 0) {
         const firstTrack = tracks[0];
         if (firstTrack) {
-          audioPreloader.preloadAudio(firstTrack.file).catch(error => {
-          console.warn('Failed to preload first track:', error);
-        });
+          audioPreloader.preloadAudio(firstTrack.file).catch(() => {
+            // Failed to preload first track - silent fail
+          });
         }
       }
     },

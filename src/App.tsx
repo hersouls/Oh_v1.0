@@ -13,7 +13,6 @@ function AppContent() {
   
   const handleStart = () => {
     // 인트로에서 시작 버튼 클릭 시 처리
-    console.log('음악 여정 시작!');
     // /tracks 페이지로 이동
     navigate('/tracks');
   };
@@ -36,7 +35,7 @@ function AppContent() {
           path="/about" 
           element={
             <Layout>
-              <AboutPage onListenMusic={() => console.log('음악 듣기')} />
+              <AboutPage onListenMusic={() => {}} />
             </Layout>
           } 
         />
@@ -78,8 +77,6 @@ function AppContent() {
 }
 
 function App() {
-  console.log('App 컴포넌트 렌더링 중...');
-  
   return (
     <Router>
       <AppContent />

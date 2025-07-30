@@ -26,7 +26,7 @@ export const useAudioPreloader = () => {
       }, { once: true });
 
       audio.addEventListener('error', (error) => {
-        console.error(`Failed to preload audio: ${src}`, error);
+        // Failed to preload audio - silent fail
         reject(error);
       }, { once: true });
 

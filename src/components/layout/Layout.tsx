@@ -17,8 +17,6 @@ export const Layout: React.FC<LayoutProps> = ({
   showPlayer = false,
   className
 }) => {
-  console.log('Layout 렌더링 중...', { showHeader, showFooter, showPlayer });
-  
   return (
     <div className={`min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 ${className}`}>
       {showHeader && <Header />}
