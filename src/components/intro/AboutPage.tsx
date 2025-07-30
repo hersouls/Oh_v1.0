@@ -1,13 +1,24 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Typography } from '@/components/ui/Typography';
 import { Button } from '@/components/ui/Button';
 
 interface AboutPageProps {
-  onListenMusic: () => void;
+  onListenMusic?: () => void;
   className?: string;
 }
 
 export const AboutPage: React.FC<AboutPageProps> = ({ onListenMusic, className }) => {
+  const navigate = useNavigate();
+  
+  const handleListenMusic = () => {
+    if (onListenMusic) {
+      onListenMusic();
+    } else {
+      navigate('/tracks');
+    }
+  };
+  
   const timeline = [
     {
       year: 2014,
@@ -51,7 +62,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onListenMusic, className }
               </Typography>
 
               <Button
-                onClick={onListenMusic}
+                onClick={handleListenMusic}
                 size="lg"
                 className="bg-gradient-to-r from-moonwave-500 to-moonwave-600 hover:from-moonwave-600 hover:to-moonwave-700"
               >

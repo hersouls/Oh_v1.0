@@ -35,7 +35,7 @@ function AppContent() {
           path="/about" 
           element={
             <Layout>
-              <AboutPage onListenMusic={() => {}} />
+              <AboutPage />
             </Layout>
           } 
         />
