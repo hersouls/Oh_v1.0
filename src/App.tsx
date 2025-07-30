@@ -9,6 +9,8 @@ import NotFoundPage from '@/pages/NotFoundPage';
 import './App.css';
 
 function App() {
+  console.log('App 컴포넌트 렌더링 중...');
+  
   const handleStart = () => {
     // 인트로에서 시작 버튼 클릭 시 처리
     console.log('음악 여정 시작!');

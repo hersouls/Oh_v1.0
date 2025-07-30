@@ -5,6 +5,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Moonwave 색상 변수 */
+:root {
+  --moonwave-50: #f0f9ff;
+  --moonwave-100: #e0f2fe;
+  --moonwave-200: #bae6fd;
+  --moonwave-300: #7dd3fc;
+  --moonwave-400: #38bdf8;
+  --moonwave-500: #0ea5e9;
+  --moonwave-600: #0284c7;
+  --moonwave-700: #0369a1;
+  --moonwave-800: #075985;
+  --moonwave-900: #0c4a6e;
+  --moonwave-950: #082f49;
+}
+
+/* 커스텀 유틸리티 클래스 */
+@layer utilities {
+  .shadow-glow {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.5);
+  }
+  
+  .btn-touch {
+    @apply active:scale-95 transition-transform duration-150;
+  }
+}
+
 /* 반응형 유틸리티 클래스 */
 @layer utilities {
   .responsive-text-xs {
@@ -57,6 +83,42 @@
   
   .responsive-text-9xl {
     @apply text-9xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+  
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+  
+  .text-responsive {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+  
+  .container-mobile {
+    @apply px-4 mx-auto max-w-full;
+  }
+  
+  .container-tablet {
+    @apply px-6 mx-auto max-w-4xl;
+  }
+  
+  .container-desktop {
+    @apply px-8 mx-auto max-w-7xl;
+  }
+  
+  .bg-glass-primary {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .bg-glass-secondary {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  .border-glass-border {
+    border-color: rgba(255, 255, 255, 0.2);
   }
 }
 
