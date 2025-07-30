@@ -19,6 +19,18 @@ export const useMusicPlayer = () => {
   const soundRef = useRef<Howl | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  // 음악 파일 접근 가능성 확인
+  const checkAudioFileAccess = async (url: string) => {
+    try {
+      const response = await fetch(url, { method: 'HEAD' });
+      console.log('🎵 파일 접근 확인:', url, response.status);
+      return response.ok;
+    } catch (error) {
+      console.error('🎵 파일 접근 오류:', url, error);
+      return false;
+    }
+  };
+
   // 현재 플레이리스트에서 다음 트랙 가져오기
   const getNextTrack = useCallback(() => {
     // 현재 트랙이 없으면 null 반환
@@ -92,9 +104,15 @@ export const useMusicPlayer = () => {
         src: [musicState.currentTrack.url],
         html5: true,
         preload: true,
+        format: ['mp3'],
+        volume: musicState.volume,
         onload: () => {
           console.log('🎵 음악 로드 완료:', musicState.currentTrack?.title);
           setMusicState(prev => ({ ...prev, duration: soundRef.current?.duration() || 0 }));
+        },
+        onloaderror: (id, error) => {
+          console.error('🎵 음악 로드 오류:', musicState.currentTrack?.title, error);
+          console.error('🎵 오류 상세:', error);
         },
         onplay: () => {
           console.log('🎵 음악 재생 시작:', musicState.currentTrack?.title);
@@ -112,6 +130,17 @@ export const useMusicPlayer = () => {
           if (nextTrack) {
             playTrack(nextTrack);
           }
+        },
+        onplayerror: (id, error) => {
+          console.error('🎵 음악 재생 오류:', musicState.currentTrack?.title, error);
+          console.error('🎵 재생 오류 상세:', error);
+          // 재생 오류 시 다시 시도
+          if (soundRef.current) {
+            soundRef.current.once('unlock', () => {
+              console.log('🎵 unlock 이벤트 발생, 재생 재시도');
+              soundRef.current?.play();
+            });
+          }
         }
       });
     }
@@ -128,8 +157,15 @@ export const useMusicPlayer = () => {
   useEffect(() => {
     if (soundRef.current) {
       if (musicState.isPlaying) {
+        console.log('🎵 재생 시도:', musicState.currentTrack?.title);
+        // 브라우저 자동 재생 정책을 우회하기 위해 unlock 이벤트 대기
+        soundRef.current.once('unlock', () => {
+          console.log('🎵 unlock 이벤트 발생, 재생 시작');
+          soundRef.current?.play();
+        });
         soundRef.current.play();
       } else {
+        console.log('🎵 일시정지:', musicState.currentTrack?.title);
         soundRef.current.pause();
       }
     }
@@ -178,12 +214,18 @@ export const useMusicPlayer = () => {
 
   const togglePlay = () => {
     if (musicState.currentTrack) {
+      console.log('🎵 togglePlay 호출됨');
+      console.log('🎵 현재 재생 상태:', musicState.isPlaying);
+      console.log('🎵 현재 트랙:', musicState.currentTrack.title);
       setMusicState(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
+    } else {
+      console.log('🎵 togglePlay: 현재 트랙이 없음');
     }
   };
 
   const playTrack = (track: Track) => {
     console.log('🎵 playTrack 함수 호출:', track.title);
+    console.log('🎵 트랙 URL:', track.url);
     
     // 현재 재생 중인 트랙 중지
     if (soundRef.current) {
@@ -191,7 +233,12 @@ export const useMusicPlayer = () => {
     }
     
     setCurrentTrack(track);
-    setMusicState(prev => ({ ...prev, isPlaying: true }));
+    
+    // 브라우저 자동 재생 정책을 우회하기 위해 약간의 지연 후 재생
+    setTimeout(() => {
+      console.log('🎵 재생 상태를 true로 설정');
+      setMusicState(prev => ({ ...prev, isPlaying: true }));
+    }, 100);
   };
 
   const nextTrack = () => {
