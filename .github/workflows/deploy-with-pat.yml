@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (with PAT)
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ main ]
 
-# Add explicit permissions
 permissions:
   contents: read
   pages: write
@@ -42,7 +41,8 @@ jobs:
       if: github.ref == 'refs/heads/main'
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        # Use Personal Access Token if GITHUB_TOKEN doesn't work
+        github_token: ${{ secrets.PAT_TOKEN }}
         publish_dir: ./dist
         cname: oh.moonwave.kr
         force_orphan: true
