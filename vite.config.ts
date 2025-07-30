@@ -10,6 +10,8 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
+  // Ensure service worker is copied to build output
+  publicDir: 'public',
   build: {
     rollupOptions: {
       output: {
