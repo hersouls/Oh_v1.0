@@ -35,6 +35,7 @@ export const useSwipe = (
     }
     
     const touch = e.touches[0];
+    if (!touch) return;
     startX.current = touch.clientX;
     startY.current = touch.clientY;
     startTime.current = Date.now();
@@ -53,6 +54,7 @@ export const useSwipe = (
     if (!isSwiping.current) return;
     
     const touch = e.changedTouches[0];
+    if (!touch) return;
     const deltaX = touch.clientX - startX.current;
     const deltaY = touch.clientY - startY.current;
     const deltaTime = Date.now() - startTime.current;

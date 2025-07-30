@@ -6,7 +6,7 @@ import { VolumeControl } from './VolumeControl';
 import { TrackInfo } from './TrackInfo';
 
 export interface AudioPlayerProps {
-  currentTrack?: Track;
+  currentTrack?: Track | undefined;
   isPlaying: boolean;
   currentTime: number;
   duration: number;

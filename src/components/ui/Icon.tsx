@@ -1,18 +1,18 @@
 import React from 'react';
 import { clsx } from 'clsx';
 import {
-  PlayIcon,
-  PauseIcon,
-  ForwardIcon,
-  BackwardIcon,
+  PlayIcon as PlayIconOutline,
+  PauseIcon as PauseIconOutline,
+  ForwardIcon as ForwardIconOutline,
+  BackwardIcon as BackwardIconOutline,
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
-  HeartIcon,
-  ShareIcon,
+  HeartIcon as HeartIconOutline,
+  ShareIcon as ShareIconOutline,
   ListBulletIcon,
   MusicalNoteIcon,
-  HomeIcon,
-  UserIcon,
+  HomeIcon as HomeIconOutline,
+  UserIcon as UserIconOutline,
   Cog6ToothIcon,
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -38,7 +38,7 @@ import {
   CameraIcon,
   WifiIcon,
   SignalIcon,
-  BatteryFullIcon,
+  Battery0Icon,
   MoonIcon,
   SunIcon,
   CloudIcon,
@@ -59,8 +59,6 @@ import {
   LightBulbIcon,
   GiftIcon,
   TrophyIcon,
-  MedalIcon,
-  CrownIcon,
   BookmarkIcon
 } from '@heroicons/react/24/outline';
 
@@ -74,22 +72,22 @@ interface IconProps {
 }
 
 const iconMap = {
-  play: PlayIcon,
-  pause: PauseIcon,
-  forward: ForwardIcon,
-  backward: BackwardIcon,
+  play: PlayIconOutline,
+  pause: PauseIconOutline,
+  forward: ForwardIconOutline,
+  backward: BackwardIconOutline,
   speaker: SpeakerWaveIcon,
   speakerOff: SpeakerXMarkIcon,
-  home: HomeIcon,
-  user: UserIcon,
+  home: HomeIconOutline,
+  user: UserIconOutline,
   settings: Cog6ToothIcon,
   list: ListBulletIcon,
   arrowLeft: ArrowLeftIcon,
   arrowRight: ArrowRightIcon,
   chevronLeft: ChevronLeftIcon,
   chevronRight: ChevronRightIcon,
-  heart: HeartIcon,
-  share: ShareIcon,
+  heart: HeartIconOutline,
+  share: ShareIconOutline,
   close: XMarkIcon,
   plus: PlusIcon,
   minus: MinusIcon,
@@ -112,7 +110,7 @@ const iconMap = {
   camera: CameraIcon,
   wifi: WifiIcon,
   signal: SignalIcon,
-  battery: BatteryFullIcon,
+  battery: Battery0Icon,
   moon: MoonIcon,
   sun: SunIcon,
   cloud: CloudIcon,
@@ -132,16 +130,13 @@ const iconMap = {
   question: QuestionMarkCircleIcon,
   lightbulb: LightBulbIcon,
   gift: GiftIcon,
-  trophy: TrophyIcon,
-  medal: MedalIcon,
-  crown: CrownIcon
+  trophy: TrophyIcon
 };
 
 export const Icon: React.FC<IconProps> = ({
   name,
   size = 'md',
   color = 'inherit',
-  _variant = 'outline',
   className,
   onClick
 }) => {
@@ -190,15 +185,15 @@ export const Icon: React.FC<IconProps> = ({
 };
 
 // 특화된 아이콘 컴포넌트들
-export const PlayIconComponent = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="play" />;
-export const PauseIconComponent = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="pause" />;
-export const ForwardIconComponent = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="forward" />;
-export const BackwardIconComponent = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="backward" />;
-export const HeartIconComponent = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="heart" />;
-export const ShareIconComponent = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="share" />;
+export const PlayIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="play" />;
+export const PauseIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="pause" />;
+export const ForwardIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="forward" />;
+export const BackwardIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="backward" />;
+export const HeartIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="heart" />;
+export const ShareIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="share" />;
 export const MusicIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="music" />;
-export const HomeIconComponent = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="home" />;
-export const UserIconComponent = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="user" />;
+export const HomeIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="home" />;
+export const UserIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="user" />;
 export const SettingsIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="settings" />;
 export const CloseIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="close" />;
 export const SearchIcon = (props: Omit<IconProps, 'name'>) => <Icon {...props} name="search" />;

@@ -41,11 +41,10 @@ const mockTrack = {
   artist: '테스트 아티스트',
   album: '테스트 앨범',
   duration: 180,
+  file: '/audio/test.mp3',
   cover: '/covers/test.jpg',
-  audio: '/audio/test.mp3',
   lyrics: [],
   interpretation: '테스트 해석',
-  syncLines: [],
   description: '테스트 설명',
 };
 
@@ -127,7 +126,7 @@ describe('usePlayerState Integration Tests', () => {
   test('다른 트랙을 재생하면 이전 트랙이 자동으로 정지된다', async () => {
     const { result } = renderHook(() => usePlayerState());
 
-    const secondTrack = { ...mockTrack, id: '2', title: '테스트 트랙 2' };
+    const secondTrack = { ...mockTrack, id: '2', title: '테스트 트랙 2', file: '/audio/test2.mp3' };
 
     // 첫 번째 트랙 재생
     act(() => {
@@ -155,7 +154,7 @@ describe('usePlayerState Integration Tests', () => {
   test('재생 목록이 올바르게 관리된다', () => {
     const { result } = renderHook(() => usePlayerState());
 
-    const tracks = [mockTrack, { ...mockTrack, id: '2' }];
+    const tracks = [mockTrack, { ...mockTrack, id: '2', file: '/audio/test2.mp3' }];
 
     act(() => {
       result.current.actions.setPlaylist(tracks);

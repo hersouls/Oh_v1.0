@@ -13,6 +13,7 @@ const mockTrack: Track = {
   lyrics: [],
   interpretation: 'Test interpretation',
   description: 'Test description',
+  releaseDate: '2024-01-01',
 };
 
 const defaultProps = {
@@ -92,7 +93,7 @@ describe('TrackCard', () => {
   });
 
   it('handles track without description', () => {
-    const trackWithoutDescription = { ...mockTrack, description: undefined as string | undefined };
+    const trackWithoutDescription = { ...mockTrack, description: undefined };
     render(<TrackCard {...defaultProps} track={trackWithoutDescription} />);
     expect(screen.getByText('Test Song')).toBeInTheDocument();
     expect(screen.getByText('Test Artist')).toBeInTheDocument();
@@ -101,7 +102,7 @@ describe('TrackCard', () => {
   });
 
   it('handles onPlay callback being undefined', () => {
-    render(<TrackCard {...defaultProps} onPlay={undefined as ((track: Track) => void) | undefined} />);
+    render(<TrackCard {...defaultProps} onPlay={undefined} />);
     const playButton = screen.getByRole('button');
     // Should not throw error when clicked
     expect(() => fireEvent.click(playButton)).not.toThrow();

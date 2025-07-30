@@ -5,7 +5,7 @@ import { cn } from '@/utils/cn';
 
 interface TrackCardProps {
   track: Track;
-  onPlay?: (track: Track) => void;
+  onPlay?: ((track: Track) => void) | undefined;
   isCurrentTrack?: boolean;
   isPlaying?: boolean;
   className?: string;

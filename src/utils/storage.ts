@@ -62,13 +62,20 @@ export const saveUserSettings = (settings: Record<string, unknown>): void => {
 
 // 사용자 설정 불러오기
 export const loadUserSettings = (): Record<string, unknown> => {
-  return getStorageItem(STORAGE_KEYS.USER_SETTINGS, {
+  const settings = getStorageItem(STORAGE_KEYS.USER_SETTINGS, {
     autoPlay: false,
     crossfade: false,
     highQuality: true,
     downloadEnabled: true,
     notifications: true,
   });
+  return settings || {
+    autoPlay: false,
+    crossfade: false,
+    highQuality: true,
+    downloadEnabled: true,
+    notifications: true,
+  };
 };
 
 // 테마 저장

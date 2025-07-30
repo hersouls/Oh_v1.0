@@ -3,14 +3,14 @@ export interface Track {
   id: string;
   title: string;
   artist: string;
-  album?: string;
+  album?: string | undefined;
   duration: number;
   file: string;
   cover: string;
-  description?: string;
-  lyrics?: SyncLine[];
-  interpretation?: string;
-  releaseDate?: string;
+  description?: string | undefined;
+  lyrics?: SyncLine[] | undefined;
+  interpretation?: string | undefined;
+  releaseDate?: string | undefined;
 }
 
 // 가사 싱크 라인 타입

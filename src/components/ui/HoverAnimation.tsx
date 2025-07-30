@@ -40,21 +40,36 @@ export const HoverAnimation: React.FC<HoverAnimationProps> = ({
       scale: 'hover:scale-105',
       glow: 'hover:shadow-glow/50',
       rotate: 'hover:rotate-6',
-      slide: 'hover:translate-x-1'
+      shake: 'hover:animate-shake',
+      wiggle: 'hover:animate-wiggle',
+      pulse: 'hover:animate-pulse',
+      bounce: 'hover:animate-bounce',
+      slide: 'hover:translate-x-1',
+      fade: 'hover:opacity-80'
     },
     medium: {
       lift: 'hover:-translate-y-2',
       scale: 'hover:scale-110',
       glow: 'hover:shadow-glow',
       rotate: 'hover:rotate-12',
-      slide: 'hover:translate-x-2'
+      shake: 'hover:animate-shake',
+      wiggle: 'hover:animate-wiggle',
+      pulse: 'hover:animate-pulse',
+      bounce: 'hover:animate-bounce',
+      slide: 'hover:translate-x-2',
+      fade: 'hover:opacity-80'
     },
     strong: {
       lift: 'hover:-translate-y-4',
       scale: 'hover:scale-125',
       glow: 'hover:shadow-glow hover:shadow-2xl',
       rotate: 'hover:rotate-45',
-      slide: 'hover:translate-x-4'
+      shake: 'hover:animate-shake',
+      wiggle: 'hover:animate-wiggle',
+      pulse: 'hover:animate-pulse',
+      bounce: 'hover:animate-bounce',
+      slide: 'hover:translate-x-4',
+      fade: 'hover:opacity-80'
     }
   };
 
