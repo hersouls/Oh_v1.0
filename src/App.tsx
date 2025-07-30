@@ -5,6 +5,7 @@ import { AboutPage } from '@/components/intro/AboutPage';
 import { TracksPage } from '@/pages/TracksPage';
 import { TrackDetailPage } from '@/pages/TrackDetailPage';
 import { LyricsTestPage } from '@/pages/LyricsTestPage';
+import NotFoundPage from '@/pages/NotFoundPage';
 import './App.css';
 
 function App() {
@@ -66,20 +67,7 @@ function App() {
           {/* 404 페이지 */}
           <Route 
             path="*" 
-            element={
-              <Layout>
-                <div className="container mx-auto px-4 py-8 text-center">
-                  <h1 className="text-4xl font-bold text-white mb-4">404</h1>
-                  <p className="text-gray-300 mb-8">페이지를 찾을 수 없습니다.</p>
-                  <a 
-                    href="/" 
-                    className="text-moonwave-300 hover:text-moonwave-200 transition-colors"
-                  >
-                    홈으로 돌아가기
-                  </a>
-                </div>
-              </Layout>
-            } 
+            element={<NotFoundPage />} 
           />
         </Routes>
       </div>

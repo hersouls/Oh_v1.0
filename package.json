@@ -11,6 +11,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "build:prod": "tsc && vite build --mode production",
+    "build:check": "npm run build && npm run verify-assets",
+    "verify-assets": "node scripts/verify-assets.js",
     "preview": "vite preview",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 20",
     "lint:fix": "eslint src --ext ts,tsx --fix",

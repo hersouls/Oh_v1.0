@@ -27,16 +27,28 @@ export default defineConfig({
     minify: 'esbuild',
     sourcemap: false,
     target: 'es2015',
+    // Ensure assets are properly handled
+    assetsInlineLimit: 4096,
   },
   server: {
     port: 3000,
     host: true,
+    // Add proper MIME type handling for development
+    headers: {
+      'X-Content-Type-Options': 'nosniff',
+    },
   },
   preview: {
     port: 4173,
     host: true,
+    // Add proper MIME type handling for preview
+    headers: {
+      'X-Content-Type-Options': 'nosniff',
+    },
   },
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),
   },
+  // Ensure proper asset handling
+  assetsInclude: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg', '**/*.ico'],
 })
