@@ -97,8 +97,9 @@ export const DetailPage: React.FC<DetailPageProps> = ({
                   onClick={onPlayPause}
                   variant="primary"
                   size="lg"
-                  ariaLabel={isPlaying ? '일시정지' : '재생'}
-                  className="w-20 h-20 rounded-full p-0 shadow-2xl"
+                  ariaLabel={isPlaying ? '일시정지 (하단 뮤직플레이어)' : '재생 (하단 뮤직플레이어)'}
+                  className="w-20 h-20 rounded-full p-0 shadow-2xl group/play"
+                  title={isPlaying ? '하단 뮤직플레이어에서 일시정지' : '하단 뮤직플레이어에서 재생'}
                 >
                   {isPlaying ? (
                     <Pause className="w-10 h-10" />
@@ -116,6 +117,16 @@ export const DetailPage: React.FC<DetailPageProps> = ({
             <p className="text-white/90 text-lg mb-4 break-keep-ko">
               {track.artist}
             </p>
+            
+            {/* 재생 상태 표시 */}
+            {isPlaying && (
+              <div className="mb-4">
+                <div className="inline-flex items-center space-x-2 bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-4 py-2">
+                  <div className="w-2 h-2 bg-green-400 rounded-full wave-pulse" />
+                  <span className="text-white/90 text-sm">하단 뮤직플레이어에서 재생 중</span>
+                </div>
+              </div>
+            )}
             
             <div className="flex items-center justify-center space-x-4 text-white/70 text-sm">
               <span className="capitalize">{track.theme} Phase</span>
