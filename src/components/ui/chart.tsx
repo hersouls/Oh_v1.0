@@ -158,7 +158,7 @@ function ChartTooltipContent({
     if (labelFormatter) {
       return (
         <div className={cn("font-medium", labelClassName)}>
-          {labelFormatter(value, (payload as any) || [])}
+          {labelFormatter(value, (payload as ChartPayloadItem[]) || [])}
         </div>
       );
     }
@@ -207,7 +207,7 @@ function ChartTooltipContent({
               )}
             >
               {formatter && item.value !== undefined && item.name ? (
-                formatter(item.value as any, item.name, item as any, index, item.payload as any)
+                formatter(item.value as unknown, item.name, item as ChartPayloadItem, index, item.payload as { fill?: string })
               ) : (
                 <>
                   {itemConfig?.icon ? (

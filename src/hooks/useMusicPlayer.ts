@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Track } from '../types';
-import { tracks, getNextTrack, getPreviousTrack } from '../data/tracks';
+import { getNextTrack, getPreviousTrack } from '../data/tracks';
 
 export interface MusicPlayerState {
   currentTrack: Track | null;
