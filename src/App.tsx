@@ -29,6 +29,7 @@ export default function App() {
         console.log('🎵 사용자 상호작용 감지, 첫 번째 트랙 재생 시작');
         const firstTrack = tracks[0];
         if (firstTrack) {
+          // 사용자 상호작용 후 즉시 재생 시도
           musicPlayer.playTrack(firstTrack);
         }
         
@@ -37,6 +38,7 @@ export default function App() {
         document.removeEventListener('keydown', handleUserInteraction);
         document.removeEventListener('touchstart', handleUserInteraction);
         document.removeEventListener('mousedown', handleUserInteraction);
+        document.removeEventListener('scroll', handleUserInteraction);
       };
 
       // 사용자 상호작용 이벤트 리스너 추가
@@ -44,6 +46,7 @@ export default function App() {
       document.addEventListener('keydown', handleUserInteraction);
       document.addEventListener('touchstart', handleUserInteraction);
       document.addEventListener('mousedown', handleUserInteraction);
+      document.addEventListener('scroll', handleUserInteraction);
 
       // 클린업 함수
       return () => {
@@ -51,6 +54,7 @@ export default function App() {
         document.removeEventListener('keydown', handleUserInteraction);
         document.removeEventListener('touchstart', handleUserInteraction);
         document.removeEventListener('mousedown', handleUserInteraction);
+        document.removeEventListener('scroll', handleUserInteraction);
       };
     }
   }, [currentPage, musicPlayer.currentTrack, musicPlayer]);
