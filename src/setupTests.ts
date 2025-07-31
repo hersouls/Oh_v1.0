@@ -59,4 +59,4 @@ class MockIntersectionObserver {
   takeRecords() { return []; }
 }
 
-global.IntersectionObserver = MockIntersectionObserver as any; 
+global.IntersectionObserver = MockIntersectionObserver as unknown as typeof IntersectionObserver; 
