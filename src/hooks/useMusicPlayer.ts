@@ -1,1 +1,1 @@
-import { useState, useRef, useEffect, useCallback } from "react";
+// Music player hook - placeholder for future implementation
