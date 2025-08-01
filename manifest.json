@@ -1,0 +1,33 @@
+{
+  "name": "Moonwave",
+  "short_name": "Moonwave",
+  "description": "평범함에서 특별함으로의 변화를 담은 음악 여정",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f0f23",
+  "theme_color": "#0f0f23",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/moowave.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/moowave.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/moowave.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["music", "entertainment"],
+  "lang": "ko",
+  "dir": "ltr"
+} 

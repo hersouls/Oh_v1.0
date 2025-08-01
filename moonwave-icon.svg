@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="moonwave-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="50%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#moonwave-gradient)" />
+  
+  <!-- Music Note -->
+  <g fill="white" opacity="0.9">
+    <!-- Eighth Note -->
+    <path d="M200 120 L200 280 Q200 300 180 300 Q160 300 160 280 Q160 260 180 260 Q190 260 200 270 L200 120" />
+    <circle cx="180" cy="120" r="20" />
+    
+    <!-- Quarter Note -->
+    <path d="M320 140 L320 300 Q320 320 300 320 Q280 320 280 300 Q280 280 300 280 Q310 280 320 290 L320 140" />
+    <circle cx="300" cy="140" r="20" />
+  </g>
+  
+  <!-- Wave Lines -->
+  <g stroke="white" stroke-width="8" stroke-linecap="round" opacity="0.7">
+    <path d="M100 380 Q150 360 200 380 Q250 400 300 380 Q350 360 400 380" />
+    <path d="M120 400 Q170 380 220 400 Q270 420 320 400 Q370 380 420 400" />
+  </g>
+  
+  <!-- Moon Crescent -->
+  <path d="M380 100 A60 60 0 0 1 380 220 A40 40 0 0 0 380 100" fill="white" opacity="0.8" />
+</svg> 
